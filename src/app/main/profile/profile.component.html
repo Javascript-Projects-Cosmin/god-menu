@@ -1,0 +1,152 @@
+<div class="profile-container">
+  <mat-card class="profile-card" (swipeleft)="sidebarService.closeSidebarOnSmall()"
+  (swiperight)="sidebarService.openSidebarOnSmall()">
+    <h1 *ngIf="activeUser === undefined"> Profile not found </h1>
+    <div class="row" *ngIf="activeUser !== undefined">
+      <div class="col-lg-5 col-12">
+        <!-- <div class="profilepic" *ngIf="activeUser.photoURL !== ''">
+          <img class="box-shadow-all profilepic__image" src="{{activeUser.photoURL}}" alt="{{activeUser.displayName}}">
+          <div class="profilepic__content">
+            <span class="profilepic__icon"><i class="fas fa-camera"></i></span>
+            <span class="profilepic__text">Edit Profile</span>
+          </div>
+        </div> -->
+        <div class="profilepic">
+          <img class="box-shadow-all profilepic__image" *ngIf="activeUser.profilePicturePath" [src]="activeUser.profilePicturePath" alt="{{activeUser.displayName}}">
+          <img class="box-shadow-all profilepic__image" *ngIf="!activeUser.profilePicturePath" src="https://firebasestorage.googleapis.com/v0/b/godmenu-db556.appspot.com/o/god-diet%2Fdummy.png?alt=media&token=7c14b981-0418-4c19-8c40-676f7f6ef2f9" alt="{{activeUser.displayName}}">
+          <div class="profilepic__content" (click)="selectFile.click()">
+            <input style="display: none" type="file" (change)="onFileUpload($event)" #selectFile>
+            <span class="profilepic__icon"><i class="fas fa-camera"></i></span>
+            <span class="profilepic__text">Edit Profile</span>
+          </div>
+        </div>
+        <div class="main-info-container">
+          <div>
+            <span>Name:</span>
+            <mat-form-field appearance="outline" class="profile-input">
+              <input matInput name="name" [(ngModel)]="activeUser.displayName" />
+            </mat-form-field>
+          </div>
+          <div><span style="vertical-align: top;">Verified:</span>
+            <mat-icon style="color: rgb(0, 140, 255);" *ngIf="activeUser.emailVerified" class="material-icons" fontIcon='verified'></mat-icon>
+            <mat-icon style="color: rgb(104, 7, 7)" *ngIf="!activeUser.emailVerified" class="material-icons" fontIcon='unpublished'></mat-icon>
+          </div>
+          <div style="margin-bottom: 1rem;"><span>Email:</span>{{activeUser.email}}</div>
+        </div>
+
+        <div class="favorites-container">
+          <div class="fav">
+            <div style="display: inline-block; vertical-align: middle;"><span>Favorite Breakfasts:</span></div>
+            <ng-container *ngFor="let dish of activeUser.favoriteBreakfasts">
+              <div class="fav-chip mat-elevation-z1" [routerLink]="'/breakfasts/'+ dish.dishId" [queryParams]="{type: 'breakfast'}">
+                <div class="chip-image">
+                  <img [src]="dish.dishImage"/>
+                </div>
+                <div class="chip-name">
+                  <span>{{dish.dishName | limitCharacters: [6]}}</span>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <div class="fav">
+            <div style="display: inline-block; vertical-align: middle;"><span>Favorite Meals:</span></div>
+            <ng-container *ngFor="let dish of activeUser.favoriteMeals">
+              <div class="fav-chip mat-elevation-z1" [routerLink]="'/meals/'+ dish.dishId" [queryParams]="{type: 'meal'}">
+                <div class="chip-image">
+                  <img [src]="dish.dishImage"/>
+                </div>
+                <div class="chip-name">
+                  <span>{{dish.dishName | limitCharacters: [6]}}</span>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <div class="fav">
+            <div style="display: inline-block; vertical-align: middle;"><span>Favorite Snacks:</span></div>
+            <ng-container *ngFor="let dish of activeUser.favoriteSnacks">
+              <div class="fav-chip mat-elevation-z1" [routerLink]="'/snacks/'+ dish.dishId" [queryParams]="{type: 'snack'}">
+                <div class="chip-image">
+                  <img [src]="dish.dishImage"/>
+                </div>
+                <div class="chip-name">
+                  <span>{{dish.dishName | limitCharacters: [6]}}</span>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <!-- <div class="fav">
+            <div style="display: inline-block; vertical-align: middle;"><span>Created dishes:</span></div>
+            <ng-container *ngFor="let dish of activeUser.createdDishes">
+              <div class="fav-chip mat-elevation-z1" [routerLink]="'/' + checkType(dish.dishImage) + 's/'+ dish.dishId" [queryParams]="{type: checkType(dish.dishImage)}">
+                <div class="chip-image">
+                  <img [src]="dish.dishImage"/>
+                </div>
+                <div class="chip-name">
+                  <span>{{dish.dishName | limitCharacters: [6]}}</span>
+                </div>
+              </div>
+            </ng-container>
+          </div> -->
+        </div>
+      </div>
+      <div class="col-lg-7 col-12">
+        <div class="sub-info-container">
+          <div class="info-row">
+            <span>Age:</span>
+            <span>Height:</span>
+            <span>Weight:</span>
+            <span>Gender:</span>
+            <span>Activity Level:</span>
+          </div>
+          <div class="input-row">
+            <form #updateUserForm="ngForm" >
+              <mat-form-field required appearance="outline" class="profile-input">
+                <input type="number" matInput name="age" [(ngModel)]="activeUser.age" />
+                <span matSuffix>years</span>
+              </mat-form-field>
+              <mat-form-field required appearance="outline" class="profile-input">
+                <input type="number" matInput name="height" [(ngModel)]="activeUser.height" />
+                <span matSuffix>cm</span>
+              </mat-form-field>
+              <mat-form-field required appearance="outline" class="profile-input">
+                <input type="number" matInput name="weight" [(ngModel)]="activeUser.weight" />
+                <span matSuffix>kilograms</span>
+              </mat-form-field>
+              <mat-form-field required appearance="outline" class="profile-input">
+                <mat-select matInput name="gender" required [(ngModel)]="activeUser.gender">
+                  <mat-option value="Man">Man</mat-option>
+                  <mat-option value="Woman">Woman</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field required appearance="outline" class="profile-input">
+                <mat-select matInput name="activity" required [(ngModel)]="activityToString">
+                  <mat-option value="1">Sedentary (0 days)</mat-option>
+                  <mat-option value="2">Lightly Active (1-3 days/week)</mat-option>
+                  <mat-option value="3">Active (4-5 days/week)</mat-option>
+                  <mat-option value="4">Very active (6-7 days/week)</mat-option>
+                  <mat-option value="5">Extra active (7 days/week)</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </form>
+          </div>
+          <div class="save-button-container">
+            <button class="save-button" type="submit" (click)="saveInfo()" mat-raised-button>Save Info</button>
+          </div>
+          <div class="comments-container">
+            <h5>Comments</h5>
+            <ng-container *ngFor="let comm of shownComments">
+              <div class="comm">
+                <span class="comm-date">{{comm.date}}</span>
+                <span class="comm-comm">{{comm.comment | limitCharacters: [25]}}</span>
+                <span class="comm-at">at</span>
+                <span class="comm-dish" [routerLink]="'/' + comm.dishType + 's/' + comm.dishId" [queryParams]="{type: comm.dishType}">{{comm.dishName | limitCharacters: [15]}}</span>
+              </div>
+            </ng-container>
+            <span class="more-comments" *ngIf="activeUser.comments.length > 6">And {{activeUser.comments.length - 5}} more</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </mat-card>
+</div>

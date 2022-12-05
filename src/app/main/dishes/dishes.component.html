@@ -1,0 +1,83 @@
+<div class="container">
+  <div *ngIf="activeUser" class="add-button">
+    <button type="button" mat-raised-button (click)="openAddDialog()">
+      <mat-icon class="material-icons" fontIcon='add'></mat-icon>
+    </button>
+  </div>
+  <div class="row">
+    <ng-container *ngFor="let dish of dishes">
+      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
+        <mat-card class="dish-container mat-elevation-z5">
+          <div class="dish-image-container" [routerLink]="dish.dishId" [queryParams]="{type: dishType}">
+            <img class="ingredient-image" [src]="dish.imagePath" [alt]="dish.name">
+          </div>
+          <div class="dish-content-container">
+            <div class="name-container" [routerLink]="dish.dishId" [queryParams]="{type: dishType}">
+              <span>{{dish.name | limitCharacters: [30]}}</span>
+            </div>
+            <div class="creator-container" [routerLink]="dish.dishId" [queryParams]="{type: dishType}" *ngIf="activeUser && dish.creatorId !== activeUser.uid">
+              <span>Created by {{dish.creator | limitCharacters: [16]}}</span>
+            </div>
+            <div class="creator-container" [routerLink]="dish.dishId" [queryParams]="{type: dishType}" *ngIf="activeUser && dish.creatorId === activeUser.uid">
+              <span>Your recipe</span>
+            </div>
+            <div class="tags-container" [routerLink]="dish.dishId" [queryParams]="{type: dishType}">
+              <span>tags: <ng-container *ngFor="let tag of dish.tags; let i = index"><span *ngIf="i < 3">{{tag}},</span></ng-container>...</span>
+            </div>
+            <div class="like-date-container">
+              <span>{{dish.createdAt}}</span>
+              <div *ngIf="activeUser">
+                <button type="button" mat-raised-button (click)="likeDish(dish)">
+                  <mat-icon *ngIf="userLiked(dish)" class="material-icons" fontIcon='favorite'></mat-icon>
+                  <mat-icon *ngIf="!userLiked(dish)" class="material-icons" fontIcon='favorite_border'></mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+
+    </ng-container>
+  </div>
+  <div class="paginator mat-elevation-z8">
+    <mat-paginator
+              class="dish-paginator"
+              [length]="lengthOfPage"
+              [pageSizeOptions]="[6, 12, 24, 36]"
+              aria-label="Select page"
+              itemsPerPageLabel="Page size">
+    </mat-paginator>
+    <mat-form-field appearance="standard" class="order-by-select">
+      <mat-label>Order by</mat-label>
+      <mat-select name="order" [(ngModel)]="orderBy" (ngModelChange)="onSortChange()">
+        <mat-option value="name">Name</mat-option>
+        <mat-option value="AMCG">Vit. A</mat-option>
+        <mat-option value="B1MG">Vit. B1</mat-option>
+        <mat-option value="B2MG">Vit. B2</mat-option>
+        <mat-option value="B3MG">Vit. B3</mat-option>
+        <mat-option value="B6MG">Vit. B6</mat-option>
+        <mat-option value="B9MCG">Vit. B9</mat-option>
+        <mat-option value="B12MCG">Vit. B12</mat-option>
+        <mat-option value="CMG">Vit. C</mat-option>
+        <mat-option value="DMCG">Vit. D</mat-option>
+        <mat-option value="EMG">Vit. E</mat-option>
+        <mat-option value="KMCG">Vit. K</mat-option>
+        <mat-option value="calciumMG">Calcium</mat-option>
+        <mat-option value="calories">Calories</mat-option>
+        <mat-option value="carbsG">Carbs</mat-option>
+        <mat-option value="cholesterolMG">Cholest.</mat-option>
+        <mat-option value="fiberG">Fibers</mat-option>
+        <mat-option value="ironMG">Iron</mat-option>
+        <mat-option value="magnesiumMG">Magnes.</mat-option>
+        <mat-option value="phosphorusMG">Phosp.</mat-option>
+        <mat-option value="potassiumMG">Potass.</mat-option>
+        <mat-option value="price">Price</mat-option>
+        <mat-option value="proteinG">Protein</mat-option>
+        <mat-option value="sodiumMG">Sodium</mat-option>
+        <mat-option value="sugarsG">Sugar</mat-option>
+        <mat-option value="totalFatG">Fat</mat-option>
+        <mat-option value="zincMG">Zinc</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>

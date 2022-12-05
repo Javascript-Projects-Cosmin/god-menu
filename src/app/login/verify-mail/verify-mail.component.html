@@ -1,0 +1,22 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <div class="login-header">
+      <h4>Thank You for Registering</h4>
+    </div>
+    <div *ngIf="authService.userData as user">
+      <p class="text-center">We have sent a confirmation email to <strong>{{user.email}}</strong>.</p>
+      <p class="text-center">Please check your email and click on the link to verfiy your email address.</p>
+    </div>
+    <span style="display: block; margin-top: 0.5rem">Or</span>
+    <!-- Calling SendVerificationMail() method using authService Api -->
+    <div style="margin-top: 1rem;">
+      <button mat-raised-button type="button" class="login-button" (click)="authService.SendVerificationMail()">
+        <i class="fas fa-redo-alt"></i>
+        Resend Verification Email
+      </button>
+    </div>
+    <div style="margin-top: 1.5rem">
+      <button mat-raised-button type="button" class="login-button" routerLink="/sign-in">Go back to Sign in</button>
+    </div>
+  </mat-card>
+</div>

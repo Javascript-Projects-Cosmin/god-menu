@@ -1,0 +1,32 @@
+.spinner-container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(10px);
+  transition: all 0.5s ease;
+}
+
+.full-spinner{
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+
+  mat-spinner{
+    top: 20%;
+    left: 6%;
+  }
+}
+
+.dialog-spinner{
+  width: 100%;
+  left: 0;
+  height: 100%;
+  top: 0;
+
+  mat-spinner{
+    top: 15%;
+  }
+}

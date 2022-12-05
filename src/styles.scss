@@ -1,1 +1,514 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap');
+*{
+  //font-family: 'Roboto', sans-serif;
+  //font-family: 'Libre Baskerville', serif;
+  font-family: 'GFS Didot', serif;
+  letter-spacing: 0.04rem;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+html, body {width: auto!important; }
+//Reset the material colors which are a pain usually
+.mat-form-field {
+  color:inherit!important;
+  .mat-form-field-wrapper {
+    color:inherit!important;
+    .mat-form-field-flex {
+      color:inherit!important;
+      .mat-form-field-infix {
+        color:inherit!important;
+        border-top: 0!important;
+        border-bottom: 0!important;
+        padding-bottom: 0.7rem!important;
+        .mat-select {
+          color:inherit!important;
+          .mat-select-trigger {
+            color:inherit!important;
+            .mat-select-value {
+              color:inherit!important;
+              span {
+                color:inherit!important;
+              }
+            }
+            .mat-select-arrow-wrapper {
+              color:inherit!important;
+              .mat-select-arrow {
+                color:inherit!important;
+              }
+            }
+          }
+        }
+      }
+    }
+    .mat-form-field-underline{
+      background-color: inherit!important;
+      span {
+        background-color: inherit!important;
+      }
+    }
+  }
+}
+
+.mat-header-cell {
+  color: inherit!important;
+}
+
+.mat-icon{
+  font-size: 1.3rem;
+}
+
+app-main mat-expansion-panel.trigger-panel {
+  .mat-expansion-panel-body {
+      padding:0;
+  }
+}
+
+.mat-expansion-panel-header-description, .mat-expansion-indicator::after {
+  color: inherit!important;
+}
+.main-container {
+  height: calc(100vh - 140px)!important;
+  overflow-y:scroll;
+  padding: 30px;
+  transition: all 0.5s ease;
+}
+
+.new-button {
+  height: 2.5rem;
+  border-radius: 1.5rem!important;
+}
+
+/* Color themes */
+.positive-button {
+  background-color: #FFA400;
+  color: white;
+  -moz-box-shadow: 0 0 6px 1px rgba(255, 193, 48, 0.236)!important;
+  -webkit-box-shadow: 0 0 6px 1px rgba(255, 193, 48, 0.234)!important;
+  box-shadow: 0 0 6px 1px rgba(255, 193, 48, 0.233)!important;
+}
+
+.negative-button {
+  //background-color: #2a2a2a;
+  background-color: #60616A;
+  color: white;
+  -moz-box-shadow: 0 0 6px 1px rgba(92, 92, 92, 0.16)!important;
+  -webkit-box-shadow: 0 0 6px 1px rgba(87, 87, 86, 0.137)!important;
+  box-shadow: 0 0 6px 1px rgba(74, 74, 74, 0.136)!important;
+}
+
+.confirm-button {
+  background-color: #1ac917;
+  color: white;
+}
+
+.delete-button {
+  background-color: #ef0e0e;
+  color: white;
+}
+
+.simulate-button {
+  background-color: #0990c9;
+  color: white;
+  font: inherit!important;
+  -moz-box-shadow: 0 0 6px 1px rgba(255, 193, 48, 0.362)!important;
+  -webkit-box-shadow: 0 0 6px 1px rgba(255, 193, 48, 0.362)!important;
+  box-shadow: 0 0 6px 1px rgba(255, 193, 48, 0.362)!important;
+  position: relative;
+}
+
+.dark-mode-checkbox .mat-checkbox-layout .mat-checkbox-inner-container {
+  .mat-checkbox-frame {
+    border-color: white!important;
+    transition: all 0.5 ease;
+  }
+}
+
+.dark-date-dropdown{
+  color: inherit!important;
+  .mat-form-field-wrapper{
+    .mat-form-field-subscript-wrapper .mat-form-field-hint-wrapper .mat-hint{
+      color:inherit!important;
+    }
+    .mat-form-field-flex .mat-form-field-infix{
+      .mat-form-field-label-wrapper .mat-form-field-label{
+        color:inherit!important;
+      }
+    }
+    .mat-form-field-flex .mat-form-field-suffix{
+      .mat-datepicker-toggle{
+        color: inherit!important;
+      }
+    }
+    .mat-form-field-flex{
+      background-color: #60616A!important;
+    }
+  }
+}
+
+.mat-checkbox-checked.mat-accent {
+  .mat-checkbox-ripple .mat-ripple-element {
+    background-color: #ff9800!important;
+  }
+}
+.mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #ff9800;
+}
+
+.no-padding{
+  padding: 0!important;
+}
+
+.light-mode-sidebar {
+  background: url('https://res.cloudinary.com/dhj3ksqo8/image/upload/v1669067559/GodDiet/Sidebar-background_syznhr.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+}
+
+.light-mode-sidebar-hover:hover{
+  background-color: #182f4bb1!important;
+  color: white!important;
+}
+
+.light-mode-home-pad {
+  background-color: #E7EBF1;
+}
+
+.light-mode-main {
+  background-color: white;
+  color: black;
+  transition: all 0.5s ease, color 1000ms;
+}
+
+.box-shadow-right {
+  box-shadow: 8px 0 6px 3px rgba(54, 54, 54, 0.132)!important;
+  position: relative;
+}
+
+.box-shadow-down {
+  box-shadow: 0 6px 6px 4px rgba(54, 54, 54, 0.132)!important;
+  position: relative;
+}
+
+.box-shadow-all {
+  -moz-box-shadow: 0 0 6px 4px rgba(131, 131, 131, 0.132);
+  -webkit-box-shadow: 0 0 6px 4px rgba(131, 131, 131, 0.132);
+  box-shadow: 0 0 6px 4px rgba(131, 131, 131, 0.132);
+  position: relative;
+}
+
+.light-mode-icon{
+  color: #ff9800;
+}
+
+.dark-mode-icon{
+  color: white;
+}
+
+.light-mode-dialog {
+  background-color: white;
+  color: black;
+}
+
+.light-mode-dialog-nav {
+  background-color: #DCDFE8;
+  color: black;
+}
+
+.light-mode-home-quick-access {
+  background-color: #F0F5FF;
+}
+
+.dark-mode-dialog-nav {
+  background-color: #60616A!important;
+  color: white!important;
+}
+
+.dark-select-nav-item-container{
+  background-color: #FFA500;
+}
+.light-select-nav-item-container{
+ background-color: #a2a3a6!important;
+}
+
+.light-mode-dialog-wrapper {
+  background-color: #f9f9f9;
+}
+
+.dark-mode-dialog-wrapper {
+  background-color: #2f2f2f!important;
+}
+
+.light-dropzone{
+  background-color: #edeef1;
+  color: rgb(94, 94, 94);
+}
+
+.dark-dropzone{
+  background-color: #474650;
+  color: white;
+}
+
+.light-mode-dialog-input {
+  background-color: #F0F0F0!important;
+  border-bottom: 1px solid #ff9800;
+  margin-bottom: 20px!important;
+  mat-label{
+    color: #96969C!important;
+  }
+  .mat-form-field-wrapper {
+    padding-bottom: 0!important;
+  }
+  .mat-form-field-underline {
+    display: none!important;
+  }
+}
+
+.dark-mode-dialog-input {
+  //background-color: #3F404A!important;
+  background-color: #60616A!important;
+  border-bottom: 1px solid #ff9800;
+  margin-bottom: 20px!important;
+  mat-label{
+    color: white!important;
+  }
+  .mat-form-field-wrapper {
+    padding-bottom: 0!important;
+  }
+  .mat-form-field-underline {
+    display: none!important;
+  }
+}
+
+.light-chip-list{
+  background-color: #F0F0F0!important;
+  border-bottom: 1px solid #ff9800;
+  margin-bottom: 20px!important;
+  mat-label{
+    color: #96969C!important;
+  }
+  .mat-form-field-wrapper {
+    padding-bottom: 0!important;
+  }
+  .mat-form-field-underline {
+    display: none!important;
+  }
+}
+
+.light-login {
+  background-color: white!important;
+  color: black!important;
+  mat-label{
+    color: #96969C!important;
+  }
+}
+
+.dark-login {
+    background-color: #60616A!important;
+    .mat-form-field-hint-wrapper .mat-form-field-flex .mat-form-field-infix input{
+      color: white!important;
+    }
+    mat-label{
+      color: white!important;
+    }
+  }
+
+.dark-chip-list {
+  //background-color: #3F404A!important;
+  background-color: #60616A!important;
+  border-bottom: 1px solid #ff9800;
+  margin-bottom: 20px!important;
+  mat-label{
+    color: white!important;
+  }
+  .mat-form-field-wrapper {
+    padding-bottom: 0!important;
+  }
+  .mat-form-field-underline {
+    display: none!important;
+  }
+}
+
+.dark-select-outline{
+  color: inherit!important;
+  .mat-form-field-wrapper{
+    .mat-form-field-flex{
+      .mat-form-field-infix{
+        .mat-form-field-label-wrapper .mat-form-field-label{
+          color:inherit!important;
+        }
+      }
+      .mat-form-field-outline{
+        background-color: #60616A!important;
+        border-radius: 0.4rem!important;
+      }
+    }
+  }
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #cecece00;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #f8bc63;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #ff9800;
+}
+
+.dark-mode-tooltip {
+  background-color: #ff9800;
+  color: white;
+}
+
+.light-mode-tooltip {
+  background-color: #ff9800;
+  color: black!important;
+}
+
+/* Color themes -- end */
+
+/* Shake animation for drag and drop */
+@keyframes shake {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(-1px, -21px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    transform: translate(1px, -2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+/* Shake animation for drag and drop --end */
+/* For Chrome autocomplete */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+input[data-autocompleted] {
+    background-color: transparent !important;
+}
+
+input {
+  &:-webkit-autofill::first-line,
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    font-family: 'Roboto', sans-serif!important;
+  }
+}
+/*Login styles*/
+.login-container{
+  .mat-button-disabled{
+    background-color: gray!important;
+  }
+  padding: 2rem;
+  text-align: center;
+  .login-card{
+    height: 100%;
+    width: 45%;
+    min-width: 17rem!important;
+    margin: auto;
+    .login-header h4{
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+    }
+    .login-input{
+      display: block;
+      width: 60%;
+      margin: auto;
+      font-size: 0.8rem!important;
+      min-width: 12rem;
+    }
+    .login-button{
+      background-color: black;
+      color: white;
+    }
+    .google-button,.register-user{
+      background-color: rgb(1, 105, 251);
+      color: white;
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+      margin-top: 0.5rem;
+    }
+    .forgot-password{
+      background-color: black;
+      color: white;
+      cursor: pointer;
+      width: 50%;
+      min-width: 10rem;
+    }
+  }
+}
+.more-width{
+  width: 85%!important;
+}
+/*Login styles*/
+
+
+/* Themes for Dialogs */
+.dialog-box {
+  mat-dialog-container {
+    border-radius: 2rem!important;
+    padding: 0!important;
+    z-index: 500!important;
+    min-height: 76vh!important;
+    height: 100%!important;
+    overflow-x: hidden!important;
+    overflow-y: auto;
+  }
+}
+.black-dialog-box {
+  mat-dialog-container {
+    border-radius: 2rem!important;
+    padding: 0!important;
+    background-color: rgb(2, 10, 52)!important;
+    color: white!important;
+    z-index: 500!important;
+    //min-height: 76vh!important;
+    //height: 100%!important;
+    overflow-x: hidden!important;
+    overflow-y: scroll!important;
+  }
+}
+/* Themes for Dialogs */

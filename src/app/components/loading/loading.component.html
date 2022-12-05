@@ -1,0 +1,5 @@
+<div class="spinner-container"
+[ngClass]="{'full-spinner': mode === 'full', 'dialog-spinner': mode === 'dialog'}"
+*ngIf="loadingService.loading$ | async">
+    <mat-spinner style="height: 20em;"></mat-spinner>
+</div>

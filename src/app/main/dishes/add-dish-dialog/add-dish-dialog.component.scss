@@ -1,0 +1,121 @@
+.fridge-dialog-container{
+  padding: 1.5rem;
+  h4{
+    padding-bottom: 0.6rem;
+  }
+  .fridge-dialog-title{
+    text-align: center;
+    padding-bottom: 1.5rem;
+  }
+  .form-container{
+    width: 100%;
+    .row{
+      width: 100%;
+      .dish-input{
+        width: 100%!important;
+      }
+    }
+  }
+  .upload-container{
+    text-align: center;
+    .file-upload{
+      margin-bottom: 2rem;
+      margin-top: 0.5rem;
+    }
+    .upload-image-container{
+      width: 100%;
+      text-align: center;
+      img{
+        width: 12rem;
+        height: 12rem;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+  .description-container{
+    width: 100%!important;
+    .description-area{
+      width: 100%!important;
+    }
+    .tag-chip-list{
+      width: 100%!important;
+    }
+  }
+  .instructions-container{
+    width: 100%!important;
+    .instruction-buttons{
+      button{
+        border-radius: 50%;
+        margin-top: 0.35rem;
+        width: 2.6rem;
+        min-width: 0;
+        margin-right: 0.3rem;
+      }
+    }
+  }
+  .save-fridge-button{
+    background-color: rgba(240, 196, 20, 0.864);
+    color: rgb(255, 255, 255);
+  }
+  .cancel-fridge-button{
+    color: rgba(4, 4, 4, 0.864);
+    background-color: rgb(228, 228, 228);
+  }
+  .quantity-select-container{
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+    .ingredient-name{
+      font-size: 0.7rem;
+    }
+    .container-input-quantity{
+      margin-left: 0.6rem;
+      margin-right: 0.6rem;
+      height: 3rem;
+      .row{
+        height: 100%!important;
+        div{
+          margin-top: 0.4rem;
+          .type-select{
+            width: 5rem!important;
+            font-size: 0.7rem!important;
+          }
+        }
+      }
+    }
+  }
+}
+::ng-deep .fridge-search-container{
+  font-family: 'GFS Didot', serif!important;
+  letter-spacing: 0.04rem!important;
+  .selected-item{
+    padding: 0.4rem!important;
+    border-radius: 0.5rem!important;
+    border: rgba(240, 196, 20, 0.864)!important;
+    background: rgba(240, 196, 20, 0.864)!important;
+  }
+}
+
+.multiselect-item-checkbox[_ngcontent-wow-c120] input[type=checkbox][_ngcontent-wow-c120]:checked + div[_ngcontent-wow-c120]:before {
+  background: rgba(240, 196, 20, 0.864)!important;
+}
+
+::ng-deep .mat-button-focus-overlay {
+  background: transparent!important;
+}
+
+::ng-deep .quantity-input{
+  width: 2.5rem!important;
+  text-align: center!important;
+  .mat-form-field-infix{
+    background-color: rgba(210, 210, 210, 0.229)!important;
+    border-radius: 0.2rem!important;
+    padding-bottom: 0!important;
+    text-align: center!important;
+  }
+}
+
+::ng-deep .instruction-input{
+  .mat-form-field-wrapper{
+    padding-bottom: 0.3rem!important;
+  }
+}

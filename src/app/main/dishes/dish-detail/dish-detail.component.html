@@ -1,0 +1,902 @@
+<div class="go-back-button">
+  <button mat-raised-button class="back-button" [routerLink]="'/' + dishType + 's'"><mat-icon class="material-icons">arrow_back</mat-icon></button>
+</div>
+<mat-card class="detail-container" (swipeleft)="sidebarService.closeSidebarOnSmall()"
+(swiperight)="sidebarService.openSidebarOnSmall()">
+  <h2 *ngIf="this.dish === undefined">No dish found</h2>
+  <div *ngIf="this.dish !== undefined" class="inner-container">
+    <div class="row">
+      <div class="col-sm-4 col-12">
+        <div class="image-container">
+          <img [src]="dish.imagePath">
+        </div>
+      </div>
+      <div class="col-sm-8 col-12">
+        <div class="name-container">
+          <h4>{{dish.name}}</h4>
+          <div class="action-container" *ngIf="activeUser && activeUser !== undefined">
+            <button mat-raised-button class="like-button mat-elevation-z4" (click)="likeDish()" *ngIf="!userLiked()">Like</button>
+            <button mat-raised-button class="liked-button mat-elevation-z4" (click)="likeDish()" *ngIf="userLiked()">Liked</button>
+            <button mat-raised-button class="delete-button mat-elevation-z4" (click)="deleteDish()" *ngIf="userIsOwner()">Delete</button>
+          </div>
+        </div>
+        <div class="create-container">
+          <span>Created by {{dish.creator}} at {{dish.createdAt}}</span>
+        </div>
+        <div class="description-container">
+          <span>{{dish.description | limitCharacters: [250]}}</span>
+        </div>
+        <div class="link-container">
+          <span><b>Dish reference:</b> {{dish.link !== "" ? dish.link : 'none'}}</span>
+        </div>
+        <div class="price-container">
+          <span><b>Price: </b> {{dish.properties.price.toFixed(0)}} RON</span>
+        </div>
+        <div class="time-container">
+          <div class="row">
+            <div class="col-6"><span><b>Preptime</b> {{dish.preptime !== 0 ? dish.preptime : 'none'}} minutes</span></div>
+            <div class="col-6"><span><b>Cooktime</b> {{dish.cooktime !== 0 ? dish.cooktime : 'none'}} minutes</span></div>
+          </div>
+        </div>
+        <div class="tags-container">
+          <div style="display: inline-block; margin-right: 0.6rem"><span style="font-weight: bold">Tags: </span></div>
+          <ng-container *ngFor="let tag of dish.tags">
+            <div class="tag mat-elevation-z3">
+              <span>{{tag | limitCharacters: [7]}}</span>
+            </div>
+          </ng-container>
+        </div>
+        <div class="likes-container" *ngIf="shownLikes === undefined">
+          <span><b>Liked by:</b>
+            <ng-container *ngFor="let like of dish.likes">
+              <div class="like">
+                <div class="like-picture">
+                  <img [src]="like.userProfileImage">
+                </div>
+                <div class="like-name">
+                  <span>{{like.userName | limitCharacters: [12]}}</span>
+                </div>
+                <div class="like-space">
+                  <span>,</span>
+                </div>
+              </div>
+            </ng-container>
+          </span>
+        </div>
+        <div class="likes-container" *ngIf="shownLikes !== undefined">
+          <span><b>Liked by:</b>
+            <ng-container *ngFor="let like of shownLikes">
+              <div class="like">
+                <div class="like-picture">
+                  <img [src]="like.userProfileImage">
+                </div>
+                <div class="like-name">
+                  <span>{{like.userName | limitCharacters: [12]}}</span>
+                </div>
+                <div class="like-space">
+                  <span>,</span>
+                </div>
+              </div>
+            </ng-container>
+            and {{dish.likes.length - 3}} others...
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="ingredient-container">
+      <h5>Ingredients</h5>
+      <ng-container *ngFor="let ingredient of ingredients">
+        <mat-card class="ingredient mat-elevation-z4">
+          <div class="ingredient-image">
+            <img [src]="'../../../../assets/ingredients/' + ingredient.ingredient.imagePath" [alt]="ingredient.ingredient.name">
+          </div>
+          <div class="ingredient-info">
+            <span class="ingredient-title">{{ingredient.ingredient.name | limitCharacters: [12, '..']}}</span>
+            <span class="ingredient-nec">Nec: {{ingredient.quantity}} grams</span>
+            <span *ngIf="this.activeUser" class="ingredient-nec">In fridge: {{inUserFridge(ingredient.ingredient.name)}} g</span>
+          </div>
+        </mat-card>
+      </ng-container>
+    </div>
+    <div class="instructions-container">
+      <h5>Instructions</h5>
+      <ng-container *ngFor="let ins of dish.instructions; let i = index">
+        <span class="instruction">{{i + 1}}.  {{ins}}</span>
+      </ng-container>
+    </div>
+    <div class="prop-container">
+      <h5 style="margin-bottom: 1rem;">Properties</h5>
+      <span *ngIf="!activeUser || activeUser === undefined">Log in to calculate properties</span>
+      <div class="props" *ngIf="activeUser">
+        <div class="row">
+          <div class="col-12 extra-large-col">
+            <mat-card class="stat-card">
+              <div class="row">
+                <div class="col-lg-3 col-md-4 col-12 image-col">
+                  <span style="margin-bottom: 0.5rem; display: block">Calories</span>
+                  <img class="type-image" src="../../../../assets/statsIcons/calories.png" alt="calories">
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+                  <div class="row">
+                    <div class="col-lg-2 col-md-6 col-12">
+                      <span style="display: block">Cut Calories</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.calories.toFixed(0)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.caloriesExtremeLoss.toFixed(0)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.calories, activeUser.necessities.caloriesExtremeLoss)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">calories</span>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-12">
+                      <span style="display: block">Loss Calories</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.calories.toFixed(0)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.caloriesLoss.toFixed(0)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.calories, activeUser.necessities.caloriesLoss)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">calories</span>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-12">
+                      <span style="display: block">Maintain Calories</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.calories.toFixed(0)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.caloriesMaintain.toFixed(0)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.calories, activeUser.necessities.caloriesMaintain)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">calories</span>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-12">
+                      <span style="display: block">Gain Calories</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.calories.toFixed(0)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.caloriesGain.toFixed(0)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.calories, activeUser.necessities.caloriesGain)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">calories</span>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-12">
+                      <span style="display: block">Bulk Calories</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.calories.toFixed(0)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.caloriesExtremeGain.toFixed(0)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.calories, activeUser.necessities.caloriesExtremeGain)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">calories</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-xl-8 col-lg-6 col-12 large-col">
+            <mat-card class="stat-card">
+              <div class="row">
+                <div class="col-lg-3 col-md-4 col-12 image-col">
+                  <span style="margin-bottom: 0.5rem; display: block">Proteins</span>
+                  <img class="type-image" src="../../../assets/statsIcons/protein.png" alt="proteins">
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+                  <div class="row">
+                    <div class="col-md-4 col-12">
+                      <span style="display: block">Maintain Proteins</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.proteinG.toFixed(0)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.proteinsMaintain.toFixed(0)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.proteinG, activeUser.necessities.proteinsMaintain)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">grams</span>
+                    </div>
+                    <div class="col-md-4 col-12">
+                      <span style="display: block">Gain Proteins</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.proteinG.toFixed(0)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.proteinsGainMin.toFixed(0)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.proteinG, activeUser.necessities.proteinsGainMin)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">grams</span>
+                    </div>
+                    <div class="col-md-4 col-12">
+                      <span style="display: block">Extra Proteins</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.proteinG.toFixed(0)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.proteinsGainMax.toFixed(0)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.proteinG, activeUser.necessities.proteinsGainMax)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">grams</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-xl-4 col-lg-6 col-12 medium-col">
+            <mat-card class="stat-card">
+              <div class="row">
+                <div class="col-md-4 col-12 image-col">
+                  <span style="margin-bottom: 0.5rem; display: block">Carbs</span>
+                  <img class="type-image" src="../../../assets/statsIcons/carbs.png" alt="carbs">
+                </div>
+                <div class="col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Low Carbs</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.carbsG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.carbsLow.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.carbsG, activeUser.necessities.carbsLow)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">grams</span>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">High Carbs</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.carbsG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.carbsHigh.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.carbsG, activeUser.necessities.carbsHigh)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">grams</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-xl-8 col-lg-6 col-12 large-col">
+            <mat-card class="stat-card">
+              <div class="row">
+                <div class="col-lg-3 col-md-4 col-12 image-col">
+                  <span style="margin-bottom: 0.5rem; display: block">Fats</span>
+                  <img class="type-image" src="../../../assets/statsIcons/fats.png" alt="fats">
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+                  <div class="row">
+                    <div class="col-md-4 col-12">
+                      <span style="display: block">Fats for Cut</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.totalFatG.toFixed(0)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.fatsLoss.toFixed(0)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.totalFatG, activeUser.necessities.fatsLoss)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">grams</span>
+                    </div>
+                    <div class="col-md-4 col-12">
+                      <span style="display: block">Maintain Fats</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.totalFatG.toFixed(0)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.fatsMaintain.toFixed(0)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.totalFatG, activeUser.necessities.fatsMaintain)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">grams</span>
+                    </div>
+                    <div class="col-md-4 col-12">
+                      <span style="display: block">Fats for Bulk</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.totalFatG.toFixed(0)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.fatsGain.toFixed(0)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.totalFatG, activeUser.necessities.fatsGain)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">grams</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-xl-4 col-lg-6 col-12 medium-col">
+            <mat-card class="stat-card">
+              <div class="row">
+                <div class="col-md-4 col-12 image-col">
+                  <span style="margin-bottom: 0.5rem; display: block">Cholesterol</span>
+                  <img class="type-image" src="../../../assets/statsIcons/cholesterol.png" alt="cholesterol">
+                </div>
+                <div class="col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Min Cholesterol</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.cholesterolMG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.cholesterolMin.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.cholesterolMG, activeUser.necessities.cholesterolMin)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">miligrams</span>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Max Cholesterol</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.cholesterolMG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.cholesterolMax.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.cholesterolMG, activeUser.necessities.cholesterolMax)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">miligrams</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-12 medium-col">
+            <mat-card class="stat-card">
+              <div class="row">
+                <div class="col-lg-3 col-md-4 col-12 image-col">
+                  <span style="margin-bottom: 0.5rem; display: block">Fiber</span>
+                  <img class="type-image" src="../../../assets/statsIcons/fiber.png" alt="fiber">
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Min Fiber</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.fiberG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.fibersMin.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.fiberG, activeUser.necessities.fibersMin)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">grams</span>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Max Fiber</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.fiberG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.fibersMax.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.fiberG, activeUser.necessities.fibersMax)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem;">grams</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-lg-4 col-md-6 col-12 small-col">
+            <mat-card class="stat-card">
+              <div class="row">
+                <div class="col-lg-3 col-md-4 col-12 image-col">
+                  <span style="margin-bottom: 0.5rem; display: block">Iron</span>
+                  <img class="type-image" src="../../../assets/statsIcons/iron.png" alt="iron">
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Min Iron</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.ironMG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.ironMin.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.ironMG, activeUser.necessities.ironMin)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Max Iron</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.ironMG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.ironMax.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.ironMG, activeUser.necessities.ironMax)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-lg-4 col-md-6 col-12 small-col">
+            <mat-card class="stat-card">
+              <div class="row">
+                <div class="col-lg-3 col-md-4 col-12 image-col">
+                  <span style="margin-bottom: 0.5rem; display: block">Calcium</span>
+                  <img class="type-image" src="../../../assets/statsIcons/calcium.png" alt="calcium">
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Min Calcium</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.calciumMG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.calciumMin.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.calciumMG, activeUser.necessities.calciumMin)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Max Calcium</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.calciumMG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.calciumMax.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.calciumMG, activeUser.necessities.calciumMax)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-lg-4 col-md-6 col-12 small-col">
+            <mat-card class="stat-card">
+              <div class="row">
+                <div class="col-lg-3 col-md-4 col-12 image-col">
+                  <span style="margin-bottom: 0.5rem; display: block">Magnes.</span>
+                  <img class="type-image" src="../../../assets/statsIcons/magnesium.png" alt="magnesium">
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Min Magnesium</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.magnesiumMG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.magnesiumMin.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.magnesiumMG, activeUser.necessities.magnesiumMin)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Max Magnesium</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.magnesiumMG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.magnesiumMax.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.magnesiumMG, activeUser.necessities.magnesiumMax)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-lg-4 col-md-6 col-12 small-col">
+            <mat-card class="stat-card">
+              <div class="row">
+                <div class="col-lg-3 col-md-4 col-12 image-col">
+                  <span style="margin-bottom: 0.5rem; display: block">Phosph.</span>
+                  <img class="type-image" src="../../../assets/statsIcons/phosphorus.png" alt="phosphorus">
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Min Phosphorus</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.phosphorusMG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.phosphorusMin.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.phosphorusMG, activeUser.necessities.phosphorusMin)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Max Phosphorus</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.phosphorusMG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.phosphorusMax.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.phosphorusMG, activeUser.necessities.phosphorusMax)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-lg-4 col-md-6 col-12 small-col">
+            <mat-card class="stat-card">
+              <div class="row">
+                <div class="col-lg-3 col-md-4 col-12 image-col">
+                  <span style="margin-bottom: 0.5rem; display: block">Potas.</span>
+                  <img class="type-image" src="../../../assets/statsIcons/potassium.png" alt="potassium">
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Min Potassium</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.potassiumMG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.potassiumMin.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.potassiumMG, activeUser.necessities.potassiumMin)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Max Potassium</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.potassiumMG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.potassiumMax.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.potassiumMG, activeUser.necessities.potassiumMax)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-lg-4 col-md-6 col-12 small-col">
+            <mat-card class="stat-card">
+              <div class="row">
+                <div class="col-lg-3 col-md-4 col-12 image-col">
+                  <span style="margin-bottom: 0.5rem; display: block">Sodium</span>
+                  <img class="type-image" src="../../../assets/statsIcons/salt.png" alt="sodium">
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Min Sodium</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.sodiumMG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.sodiumMin.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.sodiumMG, activeUser.necessities.sodiumMin)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Max Sodium</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.sodiumMG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.sodiumMax.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.sodiumMG, activeUser.necessities.sodiumMax)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-lg-4 col-md-6 col-12 small-col">
+            <mat-card class="stat-card">
+              <div class="row">
+                <div class="col-lg-3 col-md-4 col-12 image-col">
+                  <span style="margin-bottom: 0.5rem; display: block">Sugar</span>
+                  <img class="type-image" src="../../../assets/statsIcons/sugar.png" alt="sugar">
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Min Sugar</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.sugarsG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.sugarsMin.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.sugarsG, activeUser.necessities.sugarsMin)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">grams</span>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Max Sugar</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.sugarsG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.sugarsMax.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.sugarsG, activeUser.necessities.sugarsMax)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">grams</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-lg-4 col-md-6 col-12 small-col">
+            <mat-card class="stat-card">
+              <div class="row">
+                <div class="col-lg-3 col-md-4 col-12 image-col">
+                  <span style="margin-bottom: 0.5rem; display: block">Zinc</span>
+                  <img class="type-image" src="../../../assets/statsIcons/zinc.png" alt="zinc">
+                </div>
+                <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+                  <div class="row">
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Min Zinc</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.zincMG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.zincMin.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.zincMG, activeUser.necessities.zincMin)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <span style="display: block">Max Zinc</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{dish.properties.zincMG.toFixed(1)}}</div>
+                        <div style="display: inline;">{{activeUser.necessities.zincMax.toFixed(1)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.zincMG, activeUser.necessities.zincMax)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+          <div class="col-12 extra-col">
+            <mat-card class="stat-card">
+              <div class="row">
+                <div class="col-lg-3 col-12 image-col">
+                  <span style="margin-bottom: 0.5rem; display: block">Vitamins</span>
+                  <img class="type-image" src="../../../assets/statsIcons/vitamins.png" alt="vitamins">
+                </div>
+                <div class="col-lg-9 col-12 stats-col" style="margin-top: 0.45rem;">
+                  <div class="row">
+
+                    <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                      <span style="display: block">Vitamin A</span>
+                      <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                        <div class="col-6">
+                          <span style="display: block">Min</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.AMCG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.AMin.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.AMCG, activeUser.necessities.AMin)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                        </div>
+                        <div class="col-6">
+                          <span style="display: block">Max</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.AMCG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.AMax.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.AMCG, activeUser.necessities.AMax)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                      <span style="display: block">Vitamin B1</span>
+                      <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                        <div class="col-6">
+                          <span style="display: block">Min</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.B1MG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.B1Min.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.B1MG, activeUser.necessities.B1Min)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mgs</span>
+                        </div>
+                        <div class="col-6">
+                          <span style="display: block">Max</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.B1MG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.B1Max.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.B1MG, activeUser.necessities.B1Max)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mgs</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                      <span style="display: block">Vitamin B2</span>
+                      <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                        <div class="col-6">
+                          <span style="display: block">Min</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.B2MG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.B2Min.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar  mode="determinate" [value]="calculateBar(dish.properties.B2MG, activeUser.necessities.B2Min)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mgs</span>
+                        </div>
+                        <div class="col-6">
+                          <span style="display: block">Max</span>
+                          <span style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">none</span>
+                          <span style="display: block; margin-top: 0.4rem">mgs</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                      <span style="display: block">Vitamin B3</span>
+                      <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                        <div class="col-6">
+                          <span style="display: block">Min</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.B3MG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.B3Min.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.B3MG, activeUser.necessities.B3Min)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mgs</span>
+                        </div>
+                        <div class="col-6">
+                          <span style="display: block">Max</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.B3MG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.B3Max.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.B3MG, activeUser.necessities.B3Max)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mgs</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                      <span style="display: block">Vitamin B6</span>
+                      <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                        <div class="col-6">
+                          <span style="display: block">Min</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.B6MG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.B6Min.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.B6MG, activeUser.necessities.B6Min)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mgs</span>
+                        </div>
+                        <div class="col-6">
+                          <span style="display: block">Max</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.B6MG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.B6Max.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.B6MG, activeUser.necessities.B6Max)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mgs</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                      <span style="display: block">Vitamin B9</span>
+                      <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                        <div class="col-6">
+                          <span style="display: block">Min</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.B9MCG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.B9Min.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.B9MCG, activeUser.necessities.B9Min)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                        </div>
+                        <div class="col-6">
+                          <span style="display: block">Max</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.B9MCG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.B9Max.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.B9MCG, activeUser.necessities.B9Max)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                      <span style="display: block">Vitamin B12</span>
+                      <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                        <div class="col-6">
+                          <span style="display: block">Min</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.B12MCG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.B12Min.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.B12MCG, activeUser.necessities.B12Min)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                        </div>
+                        <div class="col-6">
+                          <span style="display: block">Max</span>
+                          <span style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">none</span>
+                          <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                      <span style="display: block">Vitamin C</span>
+                      <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                        <div class="col-6">
+                          <span style="display: block">Min</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.CMG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.CMin.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.CMG, activeUser.necessities.CMin)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mgs</span>
+                        </div>
+                        <div class="col-6">
+                          <span style="display: block">Max</span>
+                          <span style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">none</span>
+                          <span style="display: block; margin-top: 0.4rem">mgs</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                      <span style="display: block">Vitamin D</span>
+                      <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                        <div class="col-6">
+                          <span style="display: block">Min</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.DMCG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.DMin.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.DMCG, activeUser.necessities.DMin)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                        </div>
+                        <div class="col-6">
+                          <span style="display: block">Max</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.DMCG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.DMax.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.DMCG, activeUser.necessities.DMax)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-12 mat-elevation-z1">
+                      <span style="display: block">Vitamin E</span>
+                      <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                        <div class="col-6">
+                          <span style="display: block">Min</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.EMG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.EMin.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.EMG, activeUser.necessities.EMin)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mgs</span>
+                        </div>
+                        <div class="col-6">
+                          <span style="display: block">Max</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.EMG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.EMax.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.EMG, activeUser.necessities.EMax)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mgs</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-6  col-12 mat-elevation-z1">
+                      <span style="display: block">Vitamin K</span>
+                      <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                        <div class="col-6">
+                          <span style="display: block">Min</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.KMCG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.KMin.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar mode="determinate" [value]="calculateBar(dish.properties.KMCG, activeUser.necessities.KMin)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                        </div>
+                        <div class="col-6">
+                          <span style="display: block">Max</span>
+                          <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                            <div style="display: inline;">{{dish.properties.KMCG.toFixed(1)}}</div>
+                            <div style="display: inline;">{{activeUser.necessities.KMax.toFixed(1)}}</div>
+                          </div>
+                          <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(dish.properties.KMCG, activeUser.necessities.KMax)"></mat-progress-bar>
+                          <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="comments-container" *ngIf="activeUser">
+      <h5 style="margin-bottom: 1rem;">Comments</h5>
+      <div class="add-comment">
+        <div class="row">
+          <div class="col-md-1 col-12 d-md-block d-none">
+            <div class="comment-profile-image">
+              <img [src]="activeUser.profilePicturePath">
+            </div>
+          </div>
+          <div class="col-lg-10 col-md-9 col-9">
+            <div class="comment-input">
+              <mat-form-field appearance="outline">
+                <mat-label>Add a comment...</mat-label>
+                <input matInput name="comment" [(ngModel)]="userComment" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-1 col-md-2 col-3">
+            <button class="add-comment-button" mat-raised-button (click)="addComment()">Add</button>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngFor="let comment of dish.comments">
+        <div class="comment">
+          <div class="comment-profile-image">
+            <img [src]="activeUser.profilePicturePath">
+          </div>
+          <div class="comment-content">
+            <span class="comment-user">{{comment.user}} <span class="delete-comment" (click)="deleteComment(comment.comment)">Delete comment</span></span>
+            <span class="comment-span">{{comment.comment}}</span>
+            <span class="comment-date">{{comment.date}}</span>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="card-footer"> </div>
+  </div>
+</mat-card>

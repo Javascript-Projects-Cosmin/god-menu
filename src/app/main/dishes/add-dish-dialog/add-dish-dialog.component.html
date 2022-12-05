@@ -1,0 +1,164 @@
+<div class="fridge-dialog-container">
+  <div class="fridge-dialog-title">
+    <span><h2>Add a new {{data.dishType}} recipe</h2></span>
+  </div>
+  <h4>Basics</h4>
+  <div class="form-container">
+    <div class="row">
+      <div class="col-xl-3 col-md-6 col-12">
+        <mat-form-field appearance="outline" class="dish-input">
+          <mat-label>Name</mat-label>
+          <input type="text" matInput name="dishName" [(ngModel)]="makeADish.name">
+        </mat-form-field>
+      </div>
+      <div class="col-xl-3 col-md-6 col-12">
+        <mat-form-field appearance="outline" class="dish-input">
+          <mat-label>Link</mat-label>
+          <input type="text" matInput name="dishLink" [(ngModel)]="makeADish.link">
+        </mat-form-field>
+      </div>
+      <div class="col-xl-3 col-md-6 col-12">
+        <mat-form-field appearance="outline" class="dish-input" >
+          <mat-label>Cooktime</mat-label>
+          <input type="number" matInput name="dishCooktime" [(ngModel)]="makeADish.cooktime">
+        </mat-form-field>
+      </div>
+      <div class="col-xl-3 col-md-6 col-12">
+        <mat-form-field appearance="outline" class="dish-input">
+          <mat-label>Preptime</mat-label>
+          <input type="number" matInput name="dishPreptime" [(ngModel)]="makeADish.preptime">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <h4>Upload the recipe image</h4>
+  <div class="upload-container">
+    <div class="row">
+      <div class="col-md-3 col-12">
+
+        <input type="file" class="file-input" style="display: none" (change)="onFileSelected($event)" #fileUpload>
+        <div class="file-upload">
+          <button mat-raised-button class="save-fridge-button" (click)="fileUpload.click()">Attach<mat-icon>attach_file</mat-icon></button>
+        </div>
+
+      </div>
+      <div class="col-md-9 col-12">
+        <div class="upload-image-container" *ngIf="makeADish.imagePath !== ''">
+          <img [src]="makeADish.imagePath" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <h4>Image Name for the recipe</h4>
+  <mat-form-field appearance="outline" class="dish-input">
+    <mat-label>Image name</mat-label>
+    <input type="text" matInput name="imageName" [(ngModel)]="makeADish.imagePath">
+  </mat-form-field> -->
+  <h4>Ingredients</h4>
+  <div class="fridge-search-container">
+    <ng-multiselect-dropdown
+      [placeholder]="'Select your ingredients'"
+      [settings]="dropdownSettings"
+      [data]="dropdownList"
+      [(ngModel)]="selectedItems"
+      (onSelect)="onSelect($event)"
+      (onDeSelect)="onDeselect($event)"
+    ></ng-multiselect-dropdown>
+  </div>
+  <div class="quantity-select-container">
+    <div class="row">
+      <ng-container *ngFor="let ingredient of selectedItems; let i = index">
+        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+          <div class="container-input-quantity">
+            <div class="row mat-elevation-z1">
+              <div class="col-4" style="margin-top: 0.6rem!important;">
+                <span class="ingredient-name">{{ingredient.item_text | limitCharacters: [6, '..']}}</span>
+              </div>
+              <div class="col-2" style="margin-right: 0.3rem">
+                <mat-form-field appearence="outline" class="quantity-input">
+                  <input matInput [name]="ingredient.item_text" [(ngModel)]="selectedDetails[i].quantity">
+                </mat-form-field>
+              </div>
+              <div class="col-5">
+                <mat-form-field appearance="outline" class="type-select">
+                  <mat-label>Measure</mat-label>
+                  <mat-select matInput name="type" [(ngModel)]="selectedDetails[i].type">
+                    <mat-option value="g">grams</mat-option>
+                    <mat-option value="piece">piece/s</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <span style="font-size: 0.65rem; color: gray;">{{selectedDetails[i].conversionType}} to {{selectedDetails[i].conversion}} grams</span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <h4>Description</h4>
+  <div class="description-container">
+    <mat-form-field appearance="outline" class="description-area">
+      <mat-label>Recipe Description</mat-label>
+      <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="1"
+                [(ngModel)]="makeADish.description"
+                name="description"
+                cdkAutosizeMaxRows="10"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="tag-chip-list" appearance="outline">
+      <mat-label>Recipe Tags</mat-label>
+      <mat-chip-list #chipList aria-label="Tag Selection">
+        <mat-chip
+          *ngFor="let tag of makeADish.tags"
+          (removed)="remove(tag)">
+          {{tag}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <input
+          placeholder="New tag..."
+          #tagInput
+          [formControl]="tagCtrl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="add($event)">
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+          {{tag}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <h4>Instructions</h4>
+  <div class="instructions-container">
+    <div class="row">
+      <ng-container *ngFor="let inst of makeADish.instructions; let i = index">
+        <div class="col-1" style="text-align: right; padding-top: 0.7rem;">{{i+1}}</div>
+        <div class="col-lg-9 col-md-8 col-11">
+          <mat-form-field appearance="outline" class="instruction-input" style="width: 100%!important;">
+            <mat-label *ngIf="i === 0">Add Instructions</mat-label>
+            <input type="text" matInput name="sad" [(ngModel)]="makeADish.instructions[i]">
+          </mat-form-field>
+        </div>
+        <div class="col-lg-2 col-md-3 col-12 instruction-buttons">
+          <button *ngIf="i === makeADish.instructions.length - 1" mat-raised-button (click)="addInstruction()">
+            +
+          </button>
+          <button mat-raised-button (click)="deleteInstruction(i)">
+            -
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div mat-dialog-actions style="text-align:center">
+    <button mat-raised-button class="save-fridge-button" cdkFocusInitial (click)="onSubmit()">Save</button>
+    <button mat-raised-button class="cancel-fridge-button" (click)="onNoClick()">Cancel</button>
+  </div>
+</div>

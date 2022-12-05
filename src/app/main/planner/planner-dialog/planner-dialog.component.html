@@ -1,0 +1,808 @@
+<div class="sum-container">
+  <h3>Summary</h3>
+  <div class="props" *ngIf="activeUser">
+    <div class="row">
+      <div class="col-12 extra-large-col my-2">
+        <mat-card class="stat-card">
+          <div class="row">
+            <div class="col-lg-3 col-md-4 col-12 image-col">
+              <span style="margin-bottom: 0.5rem; display: block">Calories</span>
+              <img class="type-image" src="../../../../assets/statsIcons/calories.png" alt="calories">
+            </div>
+            <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+              <div class="row">
+                <div class="col-lg-2 col-md-6 col-12">
+                  <span style="display: block">Cut Calories</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.calories)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.caloriesExtremeLoss) * 7}} </div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.calories, activeUser.necessities.caloriesExtremeLoss * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">calories</span>
+                </div>
+                <div class="col-lg-2 col-md-6 col-12">
+                  <span style="display: block">Loss Calories</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.calories)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.caloriesLoss) * 7}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.calories, activeUser.necessities.caloriesLoss * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">calories</span>
+                </div>
+                <div class="col-lg-4 col-md-12 col-12">
+                  <span style="display: block">Maintain Calories</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.calories)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.caloriesMaintain* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.calories, activeUser.necessities.caloriesMaintain * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">calories</span>
+                </div>
+                <div class="col-lg-2 col-md-6 col-12">
+                  <span style="display: block">Gain Calories</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.calories)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.caloriesGain* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.calories, activeUser.necessities.caloriesGain * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">calories</span>
+                </div>
+                <div class="col-lg-2 col-md-6 col-12">
+                  <span style="display: block">Bulk Calories</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.calories)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.caloriesExtremeGain* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.calories, activeUser.necessities.caloriesExtremeGain * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">calories</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-xl-8 col-lg-6 col-12 large-col my-2">
+        <mat-card class="stat-card">
+          <div class="row">
+            <div class="col-lg-3 col-md-4 col-12 image-col">
+              <span style="margin-bottom: 0.5rem; display: block">Proteins</span>
+              <img class="type-image" src="../../../assets/statsIcons/protein.png" alt="proteins">
+            </div>
+            <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+              <div class="row">
+                <div class="col-md-4 col-12">
+                  <span style="display: block">Maintain Proteins</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.proteinG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.proteinsMaintain* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.proteinG, activeUser.necessities.proteinsMaintain * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">grams</span>
+                </div>
+                <div class="col-md-4 col-12">
+                  <span style="display: block">Gain Proteins</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.proteinG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.proteinsGainMin* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.proteinG, activeUser.necessities.proteinsGainMin * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">grams</span>
+                </div>
+                <div class="col-md-4 col-12">
+                  <span style="display: block">Extra Proteins</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.proteinG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.proteinsGainMax* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.proteinG, activeUser.necessities.proteinsGainMax * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">grams</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-xl-4 col-lg-6 col-12 medium-col my-2">
+        <mat-card class="stat-card">
+          <div class="row">
+            <div class="col-md-4 col-12 image-col">
+              <span style="margin-bottom: 0.5rem; display: block">Carbs</span>
+              <img class="type-image" src="../../../assets/statsIcons/carbs.png" alt="carbs">
+            </div>
+            <div class="col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Low Carbs</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.carbsG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.carbsLow* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.carbsG, activeUser.necessities.carbsLow * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">grams</span>
+                </div>
+                <div class="col-md-6 col-12">
+                  <span style="display: block">High Carbs</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.carbsG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.carbsHigh* 7)}}</div>
+                  </div>
+                  <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.carbsG, activeUser.necessities.carbsHigh * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">grams</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-xl-8 col-lg-6 col-12 large-col my-2">
+        <mat-card class="stat-card">
+          <div class="row">
+            <div class="col-lg-3 col-md-4 col-12 image-col">
+              <span style="margin-bottom: 0.5rem; display: block">Fats</span>
+              <img class="type-image" src="../../../assets/statsIcons/fats.png" alt="fats">
+            </div>
+            <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+              <div class="row">
+                <div class="col-md-4 col-12">
+                  <span style="display: block">Fats for Cut</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.totalFatG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.fatsLoss* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.totalFatG, activeUser.necessities.fatsLoss * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">grams</span>
+                </div>
+                <div class="col-md-4 col-12">
+                  <span style="display: block">Maintain Fats</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.totalFatG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.fatsMaintain* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.totalFatG, activeUser.necessities.fatsMaintain * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">grams</span>
+                </div>
+                <div class="col-md-4 col-12">
+                  <span style="display: block">Fats for Bulk</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.totalFatG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.fatsGain* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.totalFatG, activeUser.necessities.fatsGain * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">grams</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-xl-4 col-lg-6 col-12 medium-col my-2">
+        <mat-card class="stat-card">
+          <div class="row">
+            <div class="col-md-4 col-12 image-col">
+              <span style="margin-bottom: 0.5rem; display: block">Cholesterol</span>
+              <img class="type-image" src="../../../assets/statsIcons/cholesterol.png" alt="cholesterol">
+            </div>
+            <div class="col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Min Cholesterol</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.cholesterolMG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.cholesterolMin* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.cholesterolMG, activeUser.necessities.cholesterolMin * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">miligrams</span>
+                </div>
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Max Cholesterol</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.cholesterolMG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.cholesterolMax* 7)}}</div>
+                  </div>
+                  <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.cholesterolMG, activeUser.necessities.cholesterolMax * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">miligrams</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-xl-4 col-lg-4 col-12 medium-col my-2">
+        <mat-card class="stat-card">
+          <div class="row">
+            <div class="col-lg-3 col-md-4 col-12 image-col">
+              <span style="margin-bottom: 0.5rem; display: block">Fiber</span>
+              <img class="type-image" src="../../../assets/statsIcons/fiber.png" alt="fiber">
+            </div>
+            <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Min Fiber</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.fiberG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.fibersMin* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.fiberG, activeUser.necessities.fibersMin * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">grams</span>
+                </div>
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Max Fiber</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.fiberG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.fibersMax* 7)}}</div>
+                  </div>
+                  <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.fiberG, activeUser.necessities.fibersMax * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem;">grams</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-lg-4 col-md-6 col-12 small-col my-2">
+        <mat-card class="stat-card">
+          <div class="row">
+            <div class="col-lg-3 col-md-4 col-12 image-col">
+              <span style="margin-bottom: 0.5rem; display: block">Iron</span>
+              <img class="type-image" src="../../../assets/statsIcons/iron.png" alt="iron">
+            </div>
+            <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Min Iron</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.ironMG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.ironMin* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.ironMG, activeUser.necessities.ironMin * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                </div>
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Max Iron</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.ironMG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.ironMax* 7)}}</div>
+                  </div>
+                  <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.ironMG, activeUser.necessities.ironMax * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-lg-4 col-md-6 col-12 small-col my-2">
+        <mat-card class="stat-card">
+          <div class="row">
+            <div class="col-lg-3 col-md-4 col-12 image-col">
+              <span style="margin-bottom: 0.5rem; display: block">Calcium</span>
+              <img class="type-image" src="../../../assets/statsIcons/calcium.png" alt="calcium">
+            </div>
+            <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Min Calcium</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.calciumMG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.calciumMin* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.calciumMG, activeUser.necessities.calciumMin * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                </div>
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Max Calcium</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.calciumMG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.calciumMax* 7)}}</div>
+                  </div>
+                  <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.calciumMG, activeUser.necessities.calciumMax * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-lg-4 col-md-6 col-12 small-col my-2">
+        <mat-card class="stat-card">
+          <div class="row">
+            <div class="col-lg-3 col-md-4 col-12 image-col">
+              <span style="margin-bottom: 0.5rem; display: block">Magnes.</span>
+              <img class="type-image" src="../../../assets/statsIcons/magnesium.png" alt="magnesium">
+            </div>
+            <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Min Magnesium</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.magnesiumMG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.magnesiumMin* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.magnesiumMG, activeUser.necessities.magnesiumMin * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                </div>
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Max Magnesium</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.magnesiumMG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.magnesiumMax* 7)}}</div>
+                  </div>
+                  <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.magnesiumMG, activeUser.necessities.magnesiumMax * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-lg-4 col-md-6 col-12 small-col my-2">
+        <mat-card class="stat-card">
+          <div class="row">
+            <div class="col-lg-3 col-md-4 col-12 image-col">
+              <span style="margin-bottom: 0.5rem; display: block">Phosph.</span>
+              <img class="type-image" src="../../../assets/statsIcons/phosphorus.png" alt="phosphorus">
+            </div>
+            <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Min Phosphorus</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.phosphorusMG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.phosphorusMin* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.phosphorusMG, activeUser.necessities.phosphorusMin * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                </div>
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Max Phosphorus</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.phosphorusMG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.phosphorusMax* 7)}}</div>
+                  </div>
+                  <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.phosphorusMG, activeUser.necessities.phosphorusMax * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-lg-4 col-md-6 col-12 small-col my-2">
+        <mat-card class="stat-card">
+          <div class="row">
+            <div class="col-lg-3 col-md-4 col-12 image-col">
+              <span style="margin-bottom: 0.5rem; display: block">Potas.</span>
+              <img class="type-image" src="../../../assets/statsIcons/potassium.png" alt="potassium">
+            </div>
+            <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Min Potassium</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.potassiumMG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.potassiumMin* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.potassiumMG, activeUser.necessities.potassiumMin * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                </div>
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Max Potassium</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.potassiumMG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.potassiumMax* 7)}}</div>
+                  </div>
+                  <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.potassiumMG, activeUser.necessities.potassiumMax * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-lg-4 col-md-6 col-12 small-col my-2">
+        <mat-card class="stat-card">
+          <div class="row">
+            <div class="col-lg-3 col-md-4 col-12 image-col">
+              <span style="margin-bottom: 0.5rem; display: block">Sodium</span>
+              <img class="type-image" src="../../../assets/statsIcons/salt.png" alt="sodium">
+            </div>
+            <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Min Sodium</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.sodiumMG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.sodiumMin* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.sodiumMG, activeUser.necessities.sodiumMin * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                </div>
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Max Sodium</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.sodiumMG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.sodiumMax* 7)}}</div>
+                  </div>
+                  <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.sodiumMG, activeUser.necessities.sodiumMax * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-lg-4 col-md-6 col-12 small-col my-2">
+        <mat-card class="stat-card">
+          <div class="row">
+            <div class="col-lg-3 col-md-4 col-12 image-col">
+              <span style="margin-bottom: 0.5rem; display: block">Sugar</span>
+              <img class="type-image" src="../../../assets/statsIcons/sugar.png" alt="sugar">
+            </div>
+            <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Min Sugar</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.sugarsG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.sugarsMin* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.sugarsG, activeUser.necessities.sugarsMin * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem">grams</span>
+                </div>
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Max Sugar</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.sugarsG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.sugarsMax* 7)}}</div>
+                  </div>
+                  <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.sugarsG, activeUser.necessities.sugarsMax * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem">grams</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-lg-4 col-md-6 col-12 small-col my-2">
+        <mat-card class="stat-card">
+          <div class="row">
+            <div class="col-lg-3 col-md-4 col-12 image-col">
+              <span style="margin-bottom: 0.5rem; display: block">Zinc</span>
+              <img class="type-image" src="../../../assets/statsIcons/zinc.png" alt="zinc">
+            </div>
+            <div class="col-lg-9 col-md-8 col-12 stats-col" style="margin-top: 0.45rem;">
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Min Zinc</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.zincMG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.zincMin* 7)}}</div>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.zincMG, activeUser.necessities.zincMin * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                </div>
+                <div class="col-md-6 col-12">
+                  <span style="display: block">Max Zinc</span>
+                  <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                    <div style="display: inline;">{{trunc(data.properties.zincMG)}}</div>
+                    <div style="display: inline;">{{trunc(activeUser.necessities.zincMax* 7)}}</div>
+                  </div>
+                  <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.zincMG, activeUser.necessities.zincMax * 7)"></mat-progress-bar>
+                  <span style="display: block; margin-top: 0.4rem">miligrams</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-12 extra-col my-2">
+        <mat-card class="stat-card">
+          <div class="row">
+            <div class="col-lg-3 col-12 image-col">
+              <span style="margin-bottom: 0.5rem; display: block">Vitamins</span>
+              <img class="type-image" src="../../../assets/statsIcons/vitamins.png" alt="vitamins">
+            </div>
+            <div class="col-lg-9 col-12 stats-col" style="margin-top: 0.45rem;">
+              <div class="row">
+
+                <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                  <span style="display: block">Vitamin A</span>
+                  <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                    <div class="col-6">
+                      <span style="display: block">Min</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.AMCG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.AMin* 7)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.AMCG, activeUser.necessities.AMin * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                    </div>
+                    <div class="col-6">
+                      <span style="display: block">Max</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.AMCG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.AMax* 7)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.AMCG, activeUser.necessities.AMax * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                  <span style="display: block">Vitamin B1</span>
+                  <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                    <div class="col-6">
+                      <span style="display: block">Min</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.B1MG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.B1Min* 7)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.B1MG, activeUser.necessities.B1Min * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mgs</span>
+                    </div>
+                    <div class="col-6">
+                      <span style="display: block">Max</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.B1MG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.B1Max* 7)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.B1MG, activeUser.necessities.B1Max * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mgs</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                  <span style="display: block">Vitamin B2</span>
+                  <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                    <div class="col-6">
+                      <span style="display: block">Min</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.B2MG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.B2Min* 7)}}</div>
+                      </div>
+                      <mat-progress-bar  mode="determinate" [value]="calculateBar(data.properties.B2MG, activeUser.necessities.B2Min * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mgs</span>
+                    </div>
+                    <div class="col-6">
+                      <span style="display: block">Max</span>
+                      <span style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">none</span>
+                      <span style="display: block; margin-top: 0.4rem">mgs</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                  <span style="display: block">Vitamin B3</span>
+                  <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                    <div class="col-6">
+                      <span style="display: block">Min</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.B3MG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.B3Min* 7)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.B3MG, activeUser.necessities.B3Min * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mgs</span>
+                    </div>
+                    <div class="col-6">
+                      <span style="display: block">Max</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.B3MG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.B3Max* 7)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.B3MG, activeUser.necessities.B3Max * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mgs</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                  <span style="display: block">Vitamin B6</span>
+                  <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                    <div class="col-6">
+                      <span style="display: block">Min</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.B6MG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.B6Min* 7)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.B6MG, activeUser.necessities.B6Min * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mgs</span>
+                    </div>
+                    <div class="col-6">
+                      <span style="display: block">Max</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.B6MG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.B6Max* 7)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.B6MG, activeUser.necessities.B6Max * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mgs</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                  <span style="display: block">Vitamin B9</span>
+                  <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                    <div class="col-6">
+                      <span style="display: block">Min</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.B9MCG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.B9Min* 7)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.B9MCG, activeUser.necessities.B9Min * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                    </div>
+                    <div class="col-6">
+                      <span style="display: block">Max</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.B9MCG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.B9Max* 7)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.B9MCG, activeUser.necessities.B9Max * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                  <span style="display: block">Vitamin B12</span>
+                  <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                    <div class="col-6">
+                      <span style="display: block">Min</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.B12MCG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.B12Min* 7)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.B12MCG, activeUser.necessities.B12Min * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                    </div>
+                    <div class="col-6">
+                      <span style="display: block">Max</span>
+                      <span style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">none</span>
+                      <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                  <span style="display: block">Vitamin C</span>
+                  <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                    <div class="col-6">
+                      <span style="display: block">Min</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.CMG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.CMin* 7)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.CMG, activeUser.necessities.CMin * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mgs</span>
+                    </div>
+                    <div class="col-6">
+                      <span style="display: block">Max</span>
+                      <span style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">none</span>
+                      <span style="display: block; margin-top: 0.4rem">mgs</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12 mat-elevation-z1">
+                  <span style="display: block">Vitamin D</span>
+                  <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                    <div class="col-6">
+                      <span style="display: block">Min</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.DMCG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.DMin* 7)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.DMCG, activeUser.necessities.DMin * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                    </div>
+                    <div class="col-6">
+                      <span style="display: block">Max</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.DMCG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.DMax* 7)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.DMCG, activeUser.necessities.DMax * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-12 mat-elevation-z1">
+                  <span style="display: block">Vitamin E</span>
+                  <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                    <div class="col-6">
+                      <span style="display: block">Min</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.EMG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.EMin* 7)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.EMG, activeUser.necessities.EMin * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mgs</span>
+                    </div>
+                    <div class="col-6">
+                      <span style="display: block">Max</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.EMG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.EMax* 7)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.EMG, activeUser.necessities.EMax * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mgs</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-6  col-12 mat-elevation-z1">
+                  <span style="display: block">Vitamin K</span>
+                  <div class="row" style="margin-top: 0.5rem; margin-bottom: 0.8rem; font-size: 0.7rem;">
+                    <div class="col-6">
+                      <span style="display: block">Min</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.KMCG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.KMin* 7)}}</div>
+                      </div>
+                      <mat-progress-bar mode="determinate" [value]="calculateBar(data.properties.KMCG, activeUser.necessities.KMin * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                    </div>
+                    <div class="col-6">
+                      <span style="display: block">Max</span>
+                      <div class="progress-text" style="display: block; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                        <div style="display: inline;">{{trunc(data.properties.KMCG)}}</div>
+                        <div style="display: inline;">{{trunc(activeUser.necessities.KMax* 7)}}</div>
+                      </div>
+                      <mat-progress-bar class="max-bar" mode="determinate" [value]="calculateBar(data.properties.KMCG, activeUser.necessities.KMax * 7)"></mat-progress-bar>
+                      <span style="display: block; margin-top: 0.4rem">mcgs</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <div  id="invoice" #invoice>
+      <h4 class="invoice-title">Summary</h4>
+      <div class="dish-invoice">
+        <div class="row">
+          <ng-container *ngFor="let day of weekDays">
+            <div class="col-4">
+              <div class="dish-day">
+                <h5>{{day.name.slice(0,1).toUpperCase() + day.name.slice(1, day.name.length)}}</h5>
+              </div>
+              <span class="dish-type">Breakfast</span>
+              <ng-container *ngFor="let d of data.dishes[day.bf]">
+                <div class="dish-chip">
+                  <span class="dish-name"><b>{{d.item_text | limitCharacters: [20]}}</b>  {{d.item_quantity}} servings</span>
+                </div>
+              </ng-container>
+              <span class="dish-type">Main</span>
+              <ng-container *ngFor="let d of data.dishes[day.mf]">
+                <div class="dish-chip">
+                  <span class="dish-name"><b>{{d.item_text | limitCharacters: [20]}}</b>  {{d.item_quantity}} servings</span>
+                </div>
+              </ng-container>
+              <span class="dish-type">Snacks</span>
+              <ng-container *ngFor="let d of data.dishes[day.sf]">
+                <div class="dish-chip">
+                  <span class="dish-name"><b>{{d.item_text | limitCharacters: [20]}}</b>  {{d.item_quantity}} servings</span>
+                </div>
+              </ng-container>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="price-invoice">
+        <h5 style="display: inline-block">Price:</h5>
+        <span style="display: inline-block; margin-left: 2rem!important;">{{data.properties.price}} RON</span>
+      </div>
+      <div class="ingredient-invoice">
+        <div class="row">
+          <ng-container *ngFor="let ing of ingredientArray">
+            <div class="col-4">
+              <div class="ing-price">
+                <span><b>{{ing.name | limitCharacters: [12, '..']}}</b>: {{ing.value}} grams</span>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <button mat-raised-button class="prt-btn" (click)="getResults()">Print Results</button>
+    <button mat-raised-button (click)="onNoClick()">Close Summary</button>
+  </div>
+</div>

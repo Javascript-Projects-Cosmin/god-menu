@@ -1,0 +1,149 @@
+@use '@angular/material' as mat;
+
+.summary-button{
+  position: sticky;
+  width: 100%;
+  text-align: center;
+  top: 1.5rem;
+  .sum-btn{
+    @include mat.elevation(5, #ffaf01, 0.6);
+    background-color: rgb(5, 2, 44);
+    color: white;
+  }
+}
+.planner-container{
+  padding: 2rem;
+  padding-top: 1rem;
+  text-align: center;
+  .day-container{
+    width: 100%;
+    min-height: 20rem;
+    border-radius: 1rem;
+    background-size: cover;
+    background-position: center!important;
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    .day-name{
+      height: 2rem;
+      width: 80%;
+      margin-left: 0;
+      border-top-left-radius: 1rem;
+      border-bottom-right-radius: 1rem;
+      background-color: white;
+      span{
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+    }
+    .dish-time{
+      background-color: white;
+      width: 90%;
+      margin-left: 5%;
+      margin-top: 0.75rem;
+      border-radius: 1rem;
+      min-height: 6.5rem;
+      padding-bottom: 0.4rem;
+      .dishes-container{
+        margin-top: 0.3rem;
+        width: 100%;
+        text-align: left!important;
+        .fav-chip{
+          display: inline-block;
+          vertical-align: middle;
+          margin-bottom: 0.4rem;
+          width: 90%;
+          border-radius: 2rem;
+          height: 4rem;
+          margin-left: 5%;
+          cursor: pointer;
+          .chip-image{
+            width: 3.7rem;
+            display: inline;
+            img{
+              height: 3.7rem;
+              margin-top: 0.15rem;
+              margin-left: 0.15rem;
+              width: 3.7rem;
+              object-fit: cover;
+              border-radius: 50%;
+            }
+          }
+          .chip-name{
+            display: inline;
+            width: 8rem;
+            span{
+              margin-left: 0.4rem;
+              font-size: 0.8rem;
+            }
+          }
+          .chip-quantity{
+            display: inline;
+            width: 3rem;
+            margin-top: 1rem;
+            margin-right: 1rem;
+            float: right;
+            .qty-select{
+              margin-left: 0.45rem!important;
+              width: 3rem!important;
+              font-size: 0.7rem!important;
+              border-radius: 0.75rem!important;
+            }
+          }
+        }
+      }
+    }
+  }
+  .monday-container{
+    background: url('https://res.cloudinary.com/dhj3ksqo8/image/upload/v1669067559/GodDiet/Monday_n5hb6j.jpg');
+  }
+  .tuesday-container{
+    background: url('https://res.cloudinary.com/dhj3ksqo8/image/upload/v1669067559/GodDiet/Tuesday_cgv2sa.jpg');
+  }
+  .wednesday-container{
+    background: url('https://res.cloudinary.com/dhj3ksqo8/image/upload/v1669067559/GodDiet/Wednesday_zu6rhd.jpg');
+  }
+  .thursday-container{
+    background: url('https://res.cloudinary.com/dhj3ksqo8/image/upload/v1669067559/GodDiet/Thursday_anvfu2.jpg');
+  }
+  .friday-container{
+    background: url('https://res.cloudinary.com/dhj3ksqo8/image/upload/v1669067626/GodDiet/Friday_w4x3rn.jpg');
+  }
+  .saturday-container{
+    background: url('https://res.cloudinary.com/dhj3ksqo8/image/upload/v1669067558/GodDiet/Saturday_ipy97f.jpg');
+  }
+  .sunday-container{
+    background: url('https://res.cloudinary.com/dhj3ksqo8/image/upload/v1669067558/GodDiet/Sunday_r8hokp.jpg');
+  }
+}
+::ng-deep .dish-search-container{
+  font-family: 'GFS Didot', serif!important;
+  letter-spacing: 0.04rem!important;
+  font-size: 0.75rem!important;
+  border: 0.1rem transparent!important;
+  .selected-item{
+    padding: 0.4rem!important;
+    border-radius: 0.5rem!important;
+    border: rgba(240, 196, 20, 0.864)!important;
+    background: rgba(240, 196, 20, 0.864)!important;
+  }
+  .dropdown-btn{
+    border: 0.1rem transparent!important;
+  }
+}
+
+::ng-deep .example-panel {
+  border-radius: 1rem!important;
+  font-size: 0.75rem!important;
+  width: 5rem!important;
+  max-width: 5rem!important;
+  min-width: 0!important;
+}
+
+::ng-deep .mat-select-arrow {
+  display: none!important;
+  width: 0!important;
+  margin: 0!important;
+  border-left: 0!important;
+  border-right: 0!important;
+  border-top: 0!important;
+}

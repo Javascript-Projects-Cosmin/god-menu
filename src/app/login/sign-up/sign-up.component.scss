@@ -1,0 +1,16 @@
+.upload-container{
+  text-align: center;
+  .file-upload{
+    margin-bottom: 2rem;
+    margin-top: 0.5rem;
+  }
+  .upload-image-container{
+    width: 100%;
+    text-align: center;
+    img{
+      width: 12rem;
+      height: 12rem;
+      margin-bottom: 1rem;
+    }
+  }
+}

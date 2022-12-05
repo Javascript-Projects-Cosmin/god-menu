@@ -1,0 +1,113 @@
+.sum-container{
+  width: 100%;
+  padding: 1.8rem;
+  text-align: center;
+  .props{
+    height: 65vh!important;
+    overflow-y: auto!important;
+    overflow-x: hidden!important;
+    .row{
+      div{
+        text-align: center;
+      }
+      .stat-card{
+        height: 100%;
+        width: 100%;
+        margin-bottom: 1rem;
+        .progress-text{
+          display: flex!important;
+          justify-content: space-between!important;
+        }
+        .image-col{
+          .type-image{
+            height: 3rem;
+            width: 3rem;
+            margin-bottom: 0.6rem;
+          }
+        }
+        @media only screen and (max-width: 1120px) and (min-width: 992px) {
+          .image-col{
+            .type-image{
+              height: 2.4rem;
+              width: 2.4rem;
+            }
+            span{
+              font-size: 0.68rem;
+            }
+          }
+
+        }
+        .stats-col{
+          font-size: 0.85rem;
+          .row{
+            .col-12{
+              margin-bottom: 0.6rem;
+            }
+          }
+        }
+        @media only screen and (max-width: 1120px) and (min-width: 992px) {
+          .stats-col{
+            font-size: 0.70rem!important;
+          }
+        }
+        @media only screen and (max-width: 767px) {
+          .stats-col{
+            font-size: 0.85rem!important;
+          }
+        }
+      }
+    }
+  }
+  .actions{
+    height: 6rem;
+    button{
+      margin-right: 1rem;
+      margin-bottom: 1rem;
+    }
+    .prt-btn{
+      background-color: rgb(255, 174, 0);
+      color: white;
+      margin-top: 1rem;
+    }
+  }
+}
+#invoice{
+  background-color: white;
+  color: black;
+  text-align: center;
+  padding: 2rem!important;
+  .invoice-title{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .price-invoice{
+    text-align: left!important;
+    margin-top: 1.5rem!important;
+  }
+  .ingredient-invoice{
+    margin-top: 1.5rem!important;
+    .ing-price{
+      margin-top: 0.5rem!important;
+    }
+  }
+  .dish-invoice{
+    margin-top: 1.5rem!important;
+    .dish-day{
+      margin-top: 0.75rem!important;
+    }
+    .dish-type{
+      font-size: 1rem;
+      margin-top: 0.6rem;
+      display: block;
+      margin-bottom: 1rem!important;
+    }
+    .dish-chip{
+      margin-bottom: 0.35rem!important;
+      margin-top: 0.3rem!important;
+      .dish-name{
+        display: inline-block;
+        font-size: 0.8rem;
+      }
+    }
+  }
+}

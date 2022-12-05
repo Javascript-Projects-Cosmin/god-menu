@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "godmenu-db556": {
+      "hosting": {
+        "god-menu": [
+          "godmenu-db556"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "godmenu-db556"
+  }
+}

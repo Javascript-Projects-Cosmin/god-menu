@@ -1,0 +1,4 @@
+-> Add error checks to services with firestore
+-> Possibly retain collection in a variable instead of using this.store everytime
+-> Add pagination and sorting logic to dish services .orderBy('country')
+-> Error on forms

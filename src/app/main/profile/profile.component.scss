@@ -1,0 +1,217 @@
+.profile-container {
+  padding: 2rem;
+  padding-top: 2.5rem;
+  text-align: center;
+  .profile-card{
+    height: 100%;
+    min-height: 35rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    padding-bottom: 4rem;
+    .favorites-container{
+      width: 100%;
+      text-align: left!important;
+      .fav{
+        display: block;
+        width: 100%;
+        margin-top: 1rem;
+        margin-left: 1.5rem;
+        .fav-chip{
+          display: inline-block;
+          vertical-align: middle;
+          width: 8rem;
+          border-radius: 1.5rem;
+          height: 2.5rem;
+          margin-left: 0.6rem;
+          cursor: pointer;
+          .chip-image{
+            width: 2.5rem;
+            display: inline;
+            img{
+              height: 2.2rem;
+              margin-top: 0.15rem;
+              margin-left: 0.15rem;
+              width: 2.2rem;
+              object-fit: cover;
+              border-radius: 50%;
+            }
+          }
+          .chip-name{
+            display: inline;
+            width: 5.5rem;
+            span{
+              margin-left: 0.5rem;
+              font-size: 0.75rem;
+            }
+          }
+        }
+      }
+    }
+    .save-button-container{
+      text-align: center;
+      margin: auto!important;
+      margin-left: 0rem;
+      width: 100%!important;
+      margin-top: 1rem;
+      .save-button{
+        background-color: black;
+        color: white;
+      }
+    }
+    .main-info-container{
+      text-align: left;
+      div{
+        margin-left: 1.5rem;
+        font-size: 1rem;
+        width: 100%;
+        margin-bottom: 0.6rem;
+        span{
+          color: rgb(153, 153, 153);
+          margin-right: 1rem;
+        }
+        .profile-input{
+          width: 60%;
+          max-width: 15rem!important;
+          margin-left: 0!important;
+        }
+      }
+    }
+    .sub-info-container{
+      text-align: left;
+      margin-top: 3rem;
+      margin-left: 1rem;
+      width: 100%;
+      div{
+        display: inline-block;
+        vertical-align: top;
+        span{
+          display: block;
+          color: rgb(153, 153, 153);
+        }
+        .profile-input{
+          margin-top: 0.5rem;
+          display: block;
+        }
+      }
+      .info-row{
+        margin-right: 1rem;
+        width: 20%;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+        span{
+          margin-bottom: 1.7rem;
+        }
+      }
+      .input-row{
+        width: 70%;
+        text-align: center;
+        .profile-input{
+          width: 85%!important;
+          margin-left: 0!important;
+          span{font-size: 0.7rem;}
+        }
+        .mat-button-disabled{
+          background-color: gray!important;
+        }
+
+      }
+      .comments-container{
+        margin-top: 1rem;
+        display: block;
+        width: 100%;
+        .comm{
+          max-width: 100%;
+          width: 100%;
+          span{
+            display: inline;
+          }
+          .comm-date{
+            font-size: 0.75rem;
+            margin-right: 0.4rem;
+          }
+          .comm-comm{
+            font-size: 0.9rem;
+            color: black;
+            margin-right: 0.4rem;
+          }
+          .comm-at{
+            font-size: 0.9rem;
+            margin-left: 0.4rem;
+            margin-right: 0.4rem;
+          }
+          .comm-dish{
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: rgb(8, 3, 61);
+          }
+        }
+      }
+    }
+    .profilepic{
+      position: relative;
+      width: 10.5rem;
+      margin-left: 20%;
+      height: 10.5rem;
+      border-radius: 50%;
+      border: 0.2rem solid rgb(255, 191, 0);
+      overflow: hidden;
+      background-color: #111;
+      margin-bottom: 1.5rem;
+    }
+
+    .profilepic:hover .profilepic__content {
+      opacity: 1;
+    }
+
+    .profilepic:hover .profilepic__image {
+      opacity: .5;
+    }
+
+    .profilepic__image {
+      object-fit: fill!important;
+      object-position: center!important;
+      opacity: 1;
+      transition: opacity .2s ease-in-out;
+    }
+
+    .profilepic__content {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      opacity: 0;
+      transition: opacity .2s ease-in-out;
+    }
+
+    .profilepic__icon {
+      color: white;
+      padding-bottom: 8px;
+    }
+
+    .fas {
+      font-size: 20px;
+    }
+
+    .profilepic__text {
+      text-transform: uppercase;
+      font-size: 12px;
+      width: 50%;
+      text-align: center;
+    }
+
+  }
+}
+
+
+::ng-deep .profile-input{
+  .mat-form-field-wrapper{
+    padding-bottom: 0!important;
+  }
+}

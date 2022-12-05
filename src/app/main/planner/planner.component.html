@@ -1,0 +1,134 @@
+<div class="summary-button">
+  <button mat-raised-button class="sum-btn" (click)="openSummaryDialog()"><span>Summary</span></button>
+</div>
+<div class="planner-container">
+
+  <div class="row">
+    <ng-container *ngFor="let day of weekDays; let i = index">
+      <div [ngClass]="{'col-xxl-4': i <= 2 , 'col-lg-6': i <= 5, 'col-xxl-6': i === 6}" class="col-md-12">
+        <div class="day-container" [ngClass]="day.name + '-container'">
+          <div class="day-name mat-elevation-z5">
+            <span>{{day.name.slice(0,1).toUpperCase() + day.name.slice(1, day.name.length)}}</span>
+          </div>
+          <div class="dish-time breakfast-time mat-elevation-z5">
+            <div class="dish-search-container">
+              <ng-multiselect-dropdown
+                [placeholder]="'Select your breakfasts'"
+                [settings]="dropdownSettings"
+                [data]="breakfastList"
+                [(ngModel)]="selectObject[day.b]"
+                (onSelect)="onSelect($event, day.name, 'breakfast')"
+                (onDeSelect)="onDeselect($event, day.name, 'breakfast')"
+              ></ng-multiselect-dropdown>
+            </div>
+            <div class="dishes-container">
+              <ng-container *ngFor="let dish of selectObjectFull[day.bf]">
+                <div class="fav-chip mat-elevation-z1">
+                  <div class="chip-image">
+                    <img *ngIf="dish.item_picture" [src]="dish.item_picture"/>
+                  </div>
+                  <div class="chip-name">
+                    <span>{{dish.item_text | limitCharacters: [16, '..']}}</span>
+                  </div>
+                  <div class="chip-quantity">
+                    <mat-form-field appearance="outline" class="qty-select">
+                      <mat-label>Serv.</mat-label>
+                      <mat-select panelClass="example-panel"
+                        [(ngModel)]="dish.item_quantity"
+                        (ngModelChange)="onQtyChange(
+                          dish.item_id, day.bf,
+                          dish.item_properties, dish.item_ingredients, dish.item_previous_quantity
+                          )">
+                        <mat-option value="0.25">0.25</mat-option>
+                        <mat-option value="0.5">0.50</mat-option>
+                        <mat-option value="1">1.00</mat-option>
+                        <mat-option value="1.5">1.50</mat-option>
+                        <mat-option value="2">2.00</mat-option>
+                        <mat-option value="3">3.00</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div class="dish-time meal-time mat-elevation-z5">
+            <div class="dish-search-container">
+              <ng-multiselect-dropdown
+                [placeholder]="'Select your meals'"
+                [settings]="dropdownSettings"
+                [data]="mealList"
+                [(ngModel)]="selectObject[day.m]"
+                (onSelect)="onSelect($event, day.name, 'meal')"
+                (onDeSelect)="onDeselect($event, day.name, 'meal')"
+              ></ng-multiselect-dropdown>
+            </div>
+            <div class="dishes-container">
+              <ng-container *ngFor="let dish of selectObjectFull[day.mf]">
+                <div class="fav-chip mat-elevation-z1">
+                  <div class="chip-image">
+                    <img *ngIf="dish.item_picture" [src]="dish.item_picture"/>
+                  </div>
+                  <div class="chip-name">
+                    <span>{{dish.item_text | limitCharacters: [16, '..']}}</span>
+                  </div>
+                  <div class="chip-quantity">
+                    <mat-form-field appearance="outline" class="qty-select">
+                      <mat-label>Serv.</mat-label>
+                      <mat-select panelClass="example-panel" [(ngModel)]="dish.item_quantity">
+                        <mat-option value="0.25">0.25</mat-option>
+                        <mat-option value="0.5">0.50</mat-option>
+                        <mat-option value="1">1.00</mat-option>
+                        <mat-option value="1.5">1.50</mat-option>
+                        <mat-option value="2">2.00</mat-option>
+                        <mat-option value="3">3.00</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div class="dish-time snack-time mat-elevation-z5">
+            <div class="dish-search-container">
+              <ng-multiselect-dropdown
+                [placeholder]="'Select your snacks'"
+                [settings]="dropdownSettings"
+                [data]="snackList"
+                [(ngModel)]="selectObject[day.s]"
+                (onSelect)="onSelect($event, day.name, 'snack')"
+                (onDeSelect)="onDeselect($event, day.name, 'snack')"
+              ></ng-multiselect-dropdown>
+            </div>
+            <div class="dishes-container">
+              <ng-container *ngFor="let dish of selectObjectFull[day.sf]">
+                <div class="fav-chip mat-elevation-z1">
+                  <div class="chip-image">
+                    <img *ngIf="dish.item_picture" [src]="dish.item_picture"/>
+                  </div>
+                  <div class="chip-name">
+                    <span>{{dish.item_text | limitCharacters: [16, '..']}}</span>
+                  </div>
+                  <div class="chip-quantity">
+                    <mat-form-field appearance="outline" class="qty-select">
+                      <mat-label>Serv.</mat-label>
+                      <mat-select panelClass="example-panel" [(ngModel)]="dish.item_quantity">
+                        <mat-option value="0.25">0.25</mat-option>
+                        <mat-option value="0.5">0.50</mat-option>
+                        <mat-option value="1">1.00</mat-option>
+                        <mat-option value="1.5">1.50</mat-option>
+                        <mat-option value="2">2.00</mat-option>
+                        <mat-option value="3">3.00</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+</div>

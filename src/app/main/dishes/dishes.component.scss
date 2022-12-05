@@ -1,0 +1,165 @@
+.container{
+  padding: 2rem;
+  padding-top: 1.5rem;
+  padding-bottom: 6rem;
+  text-align: center;
+  .add-button{
+    position: absolute;
+    top: 2rem;
+    right: 3rem;
+    .mat-raised-button{
+      width: 3rem!important;
+      height: 3rem!important;
+      padding-right: 0.7rem!important;
+      padding-left: 0.7rem!important;
+      padding-bottom: 0.22rem!important;
+      border-radius: 50%;
+      min-width: 0!important;
+      .mat-icon{
+        font-size: 1.6rem!important;
+        font-weight: bold!important;
+        color: rgb(0, 153, 255)!important;
+      }
+    }
+  }
+  .dish-container{
+    height: 21rem;
+    width: 100%;
+    margin-top: 2rem;
+    padding: 0!important;
+    border-radius: 1rem!important;
+    cursor: pointer;
+    .dish-image-container{
+      height: 45%;
+      img{
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+      }
+    }
+    .dish-content-container{
+      height: 55%;
+      padding: 0.85rem;
+      .name-container{
+        text-align: left;
+        padding-bottom: 0.2rem;
+        span{
+          font-size: 1.13rem!important;
+          letter-spacing: normal!important;
+        }
+      }
+      .creator-container{
+        text-align: left;
+        span{
+          font-size: 0.7rem!important;
+          color: gray!important;
+          letter-spacing: normal!important;
+        }
+      }
+      .tags-container{
+        text-align: left;
+        span{
+          font-size: 0.7rem!important;
+          letter-spacing: normal!important;
+        }
+      }
+      .like-date-container{
+        text-align: left;
+        position: absolute;
+        bottom: 0.5rem;
+        width: 100%;
+        span{
+          display: inline-block;
+          font-size: 0.75rem!important;
+          width: 60%;
+          color: gray;
+          letter-spacing: normal!important;
+        }
+        div{
+          display: inline-block;
+          width: 40%;
+          text-align: right;
+          .mat-raised-button{
+            width: 2.4rem!important;
+            border-radius: 50%;
+            margin-right: 1.6rem;
+            min-width: 0!important;
+            padding-left: 0.5rem!important;
+            padding-right: 0.5rem!important;
+            .mat-icon{
+              color: rgb(248, 74, 143)!important;
+            }
+          }
+        }
+      }
+    }
+  }
+  .paginator{
+    background-color: white;
+    z-index: 100!important;
+    height: auto!important;
+    width: 35rem;
+    max-width: 100%;
+    position: fixed!important;
+    text-align: center!important;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 2rem;
+    .order-by-select{
+      display: inline-block!important;
+      font-size: 0.76rem!important;
+      width: 5rem!important;
+      padding-top: 0.3rem!important;
+    }
+  }
+}
+::ng-deep .dish-paginator {
+  display: inline-block!important;
+  border-radius: 2rem!important;
+  padding-top: 0.3rem!important;
+  vertical-align: top!important;
+  font-size: 0.76rem!important;
+  .mat-paginator-outer-container{
+    text-align: center!important;
+    .mat-paginator-container{
+      min-height: 0!important;
+      text-align: center!important;
+      display: block!important;
+      .mat-paginator-page-size{
+        display: inline-block!important;
+        vertical-align: top!important;
+        top: 0.1rem!important;
+        padding-top: 0.35rem!important;
+        height: 2.8rem!important;
+        .mat-paginator-page-size-label{
+          display: inline-block!important;
+        }
+        .mat-paginator-page-size-select{
+          display: inline-block!important;
+          width: 40px!important;
+        }
+      }
+      .mat-paginator-range-actions{
+        height: 2.4rem!important;
+        vertical-align: top!important;
+        display: inline-block!important;
+        .mat-paginator-range-label{
+          display: inline!important;
+          margin-right: 0!important;
+          margin-left: 0.2rem!important;
+        }
+        .mat-icon-button{
+          display: inline!important;
+          width: 30px!important;
+        }
+      }
+    }
+
+  }
+
+}

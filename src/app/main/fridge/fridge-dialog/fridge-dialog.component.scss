@@ -1,0 +1,66 @@
+.fridge-dialog-container{
+  padding: 1.5rem;
+  .fridge-dialog-title{
+    text-align: center;
+    padding-bottom: 1.5rem;
+  }
+  .save-fridge-button{
+    background-color: rgba(240, 196, 20, 0.864);
+    color: rgb(255, 255, 255);
+  }
+  .cancel-fridge-button{
+    color: rgba(4, 4, 4, 0.864);
+    background-color: rgb(228, 228, 228);
+  }
+  .quantity-select-container{
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+    .ingredient-name{
+      font-size: 0.7rem;
+    }
+    .container-input-quantity{
+      margin-left: 0.6rem;
+      margin-right: 0.6rem;
+      height: 3rem;
+      .row{
+        height: 100%!important;
+        div{
+          margin-top: 0.4rem;
+          .type-select{
+            width: 5rem!important;
+            font-size: 0.7rem!important;
+          }
+        }
+      }
+    }
+  }
+}
+::ng-deep .fridge-search-container{
+  font-family: 'GFS Didot', serif!important;
+  letter-spacing: 0.04rem!important;
+  .selected-item{
+    padding: 0.4rem!important;
+    border-radius: 0.5rem!important;
+    border: rgba(240, 196, 20, 0.864)!important;
+    background: rgba(240, 196, 20, 0.864)!important;
+  }
+}
+
+.multiselect-item-checkbox[_ngcontent-wow-c120] input[type=checkbox][_ngcontent-wow-c120]:checked + div[_ngcontent-wow-c120]:before {
+  background: rgba(240, 196, 20, 0.864)!important;
+}
+
+::ng-deep .mat-button-focus-overlay {
+  background: transparent!important;
+}
+
+::ng-deep .quantity-input{
+  width: 2.5rem!important;
+  text-align: center!important;
+  .mat-form-field-infix{
+    background-color: rgba(210, 210, 210, 0.229)!important;
+    border-radius: 0.2rem!important;
+    padding-bottom: 0!important;
+    text-align: center!important;
+  }
+}

@@ -1,0 +1,106 @@
+<div class="login-container">
+  <mat-card class="login-card more-width">
+    <div class="login-header">
+      <h4>Sign Up</h4>
+    </div>
+    <form #signupForm="ngForm" (ngSubmit)="authService.SignUp(email, password, activity, age, gender, height, name, weight, profilePicturePath)">
+      <div class="row">
+        <div class="col-xl-4 col-md-6 col-sm-12">
+          <span class="login-label">Email</span>
+          <mat-form-field class="login-input" appearance="outline">
+            <input matInput type="email" placeholder="Email" required name="email" [(ngModel)]="email">
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-md-6 col-sm-12">
+          <span class="login-label">Password</span>
+          <mat-form-field class="login-input" appearance="outline">
+            <input  matInput type="password" placeholder="Password" required name="password" [(ngModel)]="password">
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-md-6 col-sm-12">
+          <span class="login-label">Age</span>
+          <mat-form-field class="login-input" appearance="outline">
+            <input  matInput type="number" placeholder="Age" required name="age" [(ngModel)]="age">
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-md-6 col-sm-12">
+          <span class="login-label">Name</span>
+          <mat-form-field class="login-input" appearance="outline">
+            <input  matInput type="text" placeholder="Full Name" required name="name" [(ngModel)]="name">
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-md-6 col-sm-12">
+          <span class="login-label">Height</span>
+          <mat-form-field class="login-input" appearance="outline">
+            <input  matInput type="number" placeholder="Height(cm)" required name="height" [(ngModel)]="height">
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-md-6 col-sm-12">
+          <span class="login-label">Weight</span>
+          <mat-form-field class="login-input" appearance="outline">
+            <input  matInput type="number" placeholder="Weight(kg)" required name="weight" [(ngModel)]="weight">
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-md-6 col-sm-12">
+          <!-- <span class="login-label">Profile picture path</span>
+          <mat-form-field class="login-input" appearance="outline">
+            <input  matInput type="text" placeholder="Path" required name="path" [(ngModel)]="profilePicturePath">
+          </mat-form-field> -->
+          <span>Upload your profile picture</span>
+          <div class="upload-container">
+            <div class="row">
+              <div class="col-md-3 col-12">
+
+                <input type="file" class="file-input" style="display: none" (change)="onFileSelected($event)" #fileUpload>
+                <div class="file-upload">
+                  <button mat-raised-button class="save-fridge-button" (click)="fileUpload.click()">Attach<mat-icon>attach_file</mat-icon></button>
+                </div>
+
+              </div>
+              <div class="col-md-9 col-12">
+                <div class="upload-image-container" *ngIf="profilePicturePath !== ''">
+                  <img [src]="profilePicturePath" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-6 col-sm-12" style="margin-top: 1rem;">
+          <mat-form-field appearance="outline">
+            <mat-label>Gender</mat-label>
+            <mat-select matInput name="gender" required [(ngModel)]="gender">
+              <mat-option value="Man">Man</mat-option>
+              <mat-option value="Woman">Woman</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-md-12" style="margin-top: 1rem;">
+          <mat-form-field appearance="outline" >
+            <mat-label>Activity Level</mat-label>
+            <mat-select matInput name="activity" required [(ngModel)]="activity">
+              <mat-option value=1>Sedentary (0 days)</mat-option>
+              <mat-option value=2>Lightly Active (1-3 days/week)</mat-option>
+              <mat-option value=3>Active (4-5 days/week)</mat-option>
+              <mat-option value=4>Very active (6-7 days/week)</mat-option>
+              <mat-option value=5>Extra active (7 days/week)</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Calling SignIn Api from AuthService -->
+      <button type="submit" [disabled]="!signupForm.form.valid" class="login-button" mat-raised-button>Sign up</button>
+    </form>
+    <span style="display: block; margin-top: 0.5rem">Or</span>
+    <!-- Calling GoogleAuth Api from AuthService -->
+    <button type="button" class="google-button" mat-raised-button (click)="authService.GoogleAuth()">
+      <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
+      Continue with Google
+    </button>
+    <hr>
+    <div class="my-2"><span>Already have an account?</span></div>
+    <button type="button" class="register-user" mat-raised-button routerLink="/sign-in">
+      Log in
+    </button>
+  </mat-card>
+</div>

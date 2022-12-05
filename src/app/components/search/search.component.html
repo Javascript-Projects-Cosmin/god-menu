@@ -1,0 +1,6 @@
+<div class="search">
+  <input type="text" (ngModelChange)="updateFilteredSearchModel($event)"
+         [ngModel]="searchModel" matInput
+         placeholder="Search">
+  <mat-icon (click)="clearFilter()" *ngIf="searchModel" class="clear-search-input">close</mat-icon>
+</div>

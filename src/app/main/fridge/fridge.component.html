@@ -1,0 +1,73 @@
+<div class="fridge-container">
+  <div class="top-menu">
+    <div class="container">
+      <div class="row type-row">
+
+        <ng-container *ngFor="let type of fridgeRow">
+          <div class="col-6" [ngClass]="{
+            'col-md-4': type.size === 2 || type.size === 3,
+            'col-md-6': type.size === 4,
+            'col-lg-4': type.size === 2 || type.size === 3,
+            'col-lg-6': type.size === 4,
+            'col-xl-3': type.size === 2,
+            'col-xl-4': type.size === 4 || type.size === 3
+          }">
+            <button mat-raised-button class="type-button" (click)="setIngredientType(type.type)">
+              <div class="type-container">
+                <div class="type-image-container">
+                  <img class="type-image" [src]="type.image" [alt]="type.name">
+                </div>
+                <span *ngIf="!isSmallScreen">{{type.name}}</span>
+              </div>
+            </button>
+          </div>
+        </ng-container>
+
+      </div>
+    </div>
+  </div>
+  <div class="input-container">
+    <button class="input-button" (click)="openAddDialog()" mat-raised-button>Add to the fridge</button>
+    <button class="input-button" (click)="openRemoveDialog()" mat-raised-button>Take out of the fridge</button>
+  </div>
+  <div class="ingredient-container">
+    <div class="row">
+
+      <ng-container *ngFor="let ingredient of ingredients">
+        <div class="col-xl-2 col-lg-3 col-md-4 col-6" *ngIf="this.activeUser && userFrigeMap.has(ingredient.name) && userFrigeMap.get(ingredient.name) !== undefined">
+          <mat-card class="ingredient-box" [ngClass]="{
+            'red-ingredient': ToNumber(userFrigeMap.get(ingredient.name)) < ingredient.properties.enough / 2,
+            'yellow-ingredient': ToNumber(userFrigeMap.get(ingredient.name)) < ingredient.properties.enough && ToNumber(userFrigeMap.get(ingredient.name)) > ingredient.properties.enough / 2,
+            'green-ingredient': ToNumber(userFrigeMap.get(ingredient.name)) >= ingredient.properties.enough
+          }">
+            <div class="ingredient-image-container">
+              <img class="ingredient-image" [src]="'../../../assets/ingredients/' + ingredient.imagePath" [alt]="ingredient.name">
+            </div>
+            <div class="ingredient-text-container">
+              <div><span>{{ingredient.name}}</span></div>
+              <div>
+                <div><span style="font-size: 80%;">In fridge: {{userFrigeMap.get(ingredient.name)}} grams</span></div>
+                <div><span style="font-size: 70%;">{{ingredient.conversionType}} {{ingredient.conversion}} grams</span></div>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+        <div class="col-xl-2 col-lg-3 col-md-4 col-6" *ngIf="!this.activeUser || !userFrigeMap.has(ingredient.name)">
+          <mat-card class="ingredient-box red-ingredient">
+            <div class="ingredient-image-container">
+              <img class="ingredient-image" [src]="'../../../assets/ingredients/' + ingredient.imagePath" [alt]="ingredient.name">
+            </div>
+            <div class="ingredient-text-container">
+              <div><span>{{ingredient.name}}</span></div>
+              <div>
+                <div><span style="font-size: 80%;">In fridge: None</span></div>
+                <div><span style="font-size: 70%;">{{ingredient.conversionType}} {{ingredient.conversion}} grams</span></div>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+</div>

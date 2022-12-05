@@ -1,0 +1,93 @@
+.top-menu{
+  top: 1.5rem;
+  .container{
+    height: 100%!important;
+    .type-row.row{
+      height: 100%!important;
+      width: 100%!important;
+      padding-left: 6rem;
+      padding-right: 6rem;
+      margin-bottom: 0.3rem;
+
+      .type-button{
+        width: 100%!important;
+        padding: 0!important;
+        margin-top: 0.5rem;
+
+        .type-container{
+          padding-left: 0.5rem;
+          padding-right: 0.5rem;
+
+          span {
+            padding-left: 0.6rem;
+          }
+
+          .type-image-container{
+            display: inline-block;
+            text-align: left;
+            .type-image{
+              height: 2.5rem;
+              width: 2.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.ingredient-container{
+  width: 100%!important;
+  height: 100%!important;
+  padding: 1rem;
+  padding-top: 2rem;
+  .row{
+    width: 100%!important;
+    height: 100%!important;
+    margin: 0!important;
+    .ingredient-box{
+      height: 16rem;
+      padding: 0!important;
+      padding-bottom: 0.5rem!important;
+      margin-bottom: 1rem;
+      text-align: center;
+      .ingredient-image-container{
+        height: 50%;
+        margin-bottom: 0.5rem;
+        padding: 0.3rem;
+        width: 100%;
+        .ingredient-image{
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+      .ingredient-text-container{
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+    }
+  }
+}
+.input-container{
+  text-align: center;
+  .input-button{
+    margin-top: 1rem;
+    margin-right: 1rem;
+    padding: 0.8rem!important;
+    font-weight: bold;
+  }
+}
+.red-ingredient{
+  background: rgb(255,255,255);
+  background: linear-gradient(180deg, rgba(255,255,255,1) 51%, rgba(255,248,248,1) 83%, rgba(243, 241, 240, 0.903) 100%);
+}
+.yellow-ingredient{
+  background: rgb(255,255,255);
+  background: linear-gradient(180deg, rgba(255,255,255,1) 51%, rgba(255,255,248,1) 83%, rgb(152, 151, 72) 100%);
+}
+.green-ingredient{
+  background: rgb(255,255,255);
+  background: linear-gradient(180deg, rgba(255,255,255,1) 51%, rgba(250,255,248,1) 83%, rgb(8, 126, 103) 100%);
+}
+
+

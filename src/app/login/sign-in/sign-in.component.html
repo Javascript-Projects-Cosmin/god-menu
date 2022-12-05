@@ -1,0 +1,33 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <div class="login-header">
+      <h4>Sign in</h4>
+    </div>
+    <form>
+      <span class="login-label">Email</span>
+      <mat-form-field class="login-input" appearance="outline">
+        <input matInput type="email" placeholder="Email" required name="email" [(ngModel)]="email">
+      </mat-form-field>
+      <span class="login-label">Password</span>
+      <mat-form-field class="login-input" appearance="outline">
+        <input  matInput type="password" placeholder="Password" required name="password" [(ngModel)]="password">
+      </mat-form-field>
+      <!-- Calling SignIn Api from AuthService -->
+      <button type="submit" class="login-button" (click)="authService.SignIn(email, password)" mat-raised-button>Log in</button>
+    </form>
+    <span style="display: block; margin-top: 0.5rem">Or</span>
+    <!-- Calling GoogleAuth Api from AuthService -->
+    <button type="button" class="google-button" mat-raised-button (click)="authService.GoogleAuth()">
+      <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
+      Log in with Google
+    </button>
+    <hr>
+    <button type="button" class="forgot-password" mat-raised-button routerLink="/forgot-password">
+      Forgot Password?
+    </button>
+    <div class="my-2"><span>Don't have an account?</span></div>
+    <button type="button" class="register-user" mat-raised-button routerLink="/register-user">
+      Sign Up
+    </button>
+  </mat-card>
+</div>
